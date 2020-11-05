@@ -11,7 +11,7 @@ package trabalhops;
  */
 public class Registradores {
     
-    
+    // Testando Commit
     private short PC, SP, ACC, RI, RE;
     private byte MOP;
     
