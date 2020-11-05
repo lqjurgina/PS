@@ -1,11 +1,16 @@
-# PS teste dauan
-Trabalho de Ps
-# Critério de uso e nomeação 
- função:    primeira letra minuscula, 
-            caso tenha duas palavras, segunda usar maiuscula para diferenciar
-            EX: funçãoFazTalCoisa
- Métodos:   retorno e alteração de variáveis
-            EX: getVariavel, setVariavel
- Classes:   Primeira letra maiuscula 
-            caso tenha duas palavras, segunda também é maiuscula 
-            EX: Classe, ClasseFazTalCoisa
+# "Little Computer"
+TRABALHO DE PS
+
+## Critério de uso e nomeação
+
+   ### Funções
+   Primeira letra minúscula, caso tenha duas ou mais palavras as demais terão a primeira letra maiúscula
+   Ex: *funçãoFazTalCoisa*
+   
+   ### Métodos
+   Retorno e alteração de variáveis
+   Ex: *getVariavel*, *setVariavel*
+   
+   ### Classes
+   Primeiras letras maiúsculas.
+   Ex: *Classe*, *ClasseFazTalCoisa*
