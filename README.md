@@ -1,7 +1,7 @@
-# "Little Computer"
+# LITTLE VENTURE F712
 TRABALHO DE PS
 
-## Critério de uso e nomeação
+## CRITÉRIOS DE USO E NOMEAÇÃO
 
    ### Funções
    Primeira letra minúscula, caso tenha duas ou mais palavras as demais terão a primeira letra maiúscula
