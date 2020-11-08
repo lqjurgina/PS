@@ -30,7 +30,7 @@ public class ManipulaArquivo {
             while (true) {
                     linha = buffRead.readLine();
                     if (linha != null) {
-                        memoria.setMemoria(local, linha);
+                        memoria.setMemoriaPosicao(local, linha);
 
                     } else
                             break;

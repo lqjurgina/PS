@@ -208,7 +208,7 @@ public class janelaprincipal extends javax.swing.JFrame {
         memoria = new Memoria();
         arquivo = new ManipulaArquivo();
         arquivo.leitor("arquivo.txt", memoria);
-        
+        //Imprime 
         memoria.imprimeMemoria();
       
     }
