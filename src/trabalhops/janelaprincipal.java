@@ -10,9 +10,6 @@ import static java.awt.Color.red;
 import java.io.IOException;
 import javax.swing.JList;
 
-
-
-
 /**
  *
  * @author cassi
@@ -22,18 +19,16 @@ public class janelaprincipal extends javax.swing.JFrame {
     /**
      * Creates new form janelaprincipal
      */
-    
-
     public janelaprincipal() {
         initComponents();
         campo1.setOpaque(false);
         campo1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jButton1.setOpaque(false);
         jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
-        
+
         jButton2.setOpaque(false);
         jButton2.setBackground(new java.awt.Color(255, 255, 255, 0));
-        
+
     }
 
     /**
@@ -148,7 +143,7 @@ public class janelaprincipal extends javax.swing.JFrame {
 
     private void campo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo1ActionPerformed
         // TODO add your handling code here:
-        jLabel5.setText( campo1.getText());
+        jLabel5.setText(campo1.getText());
     }//GEN-LAST:event_campo1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -157,7 +152,7 @@ public class janelaprincipal extends javax.swing.JFrame {
         short teste = Short.parseShort(campo1.getText());
         System.out.println(teste);
         //jLabel5.setText();
-        String[] s = {"Darlei","Dauan"};
+        String[] s = {"Darlei", "Dauan"};
         //jList1.set
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -165,9 +160,10 @@ public class janelaprincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public JList<String> getLista(){
+    public JList<String> getLista() {
         return jList1;
     }
+
     /**
      * @param args the command line arguments
      */
@@ -197,20 +193,31 @@ public class janelaprincipal extends javax.swing.JFrame {
 
         /* Create and display the form */
         Memoria memoria;
-        Registradores registradores;
         ManipulaArquivo arquivo;
+
+        Registrador[] regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new janelaprincipal().setVisible(true);
             }
         });
-        memoria = new Memoria();
-        arquivo = new ManipulaArquivo();
-        arquivo.leitor("arquivo.txt", memoria);
+
+        //Declaracao das variveis
+        memoria = new Memoria(regs);
+        arquivo = new ManipulaArquivo("src/inputs/arquivo.txt", memoria);//pacote com as possiveis entradas
+        boolean continua; //variavel de continuidade de loops
+
+        do {
+            continua = arquivo.leitor();//faz a leitura do arquivo, guardando o valor de retorno da funçao. Quando for false (0), sai do loop
+        } while (continua);
+        //while(arquivo.leitor());//sintaxe alternativa
+
         //Imprime 
-        memoria.imprimeMemoria();
-      
+        regs[3].setRegistrador("k");//teste para ver a alteraçao do registrador na memoria
+        memoria.imprimeMemoriaParcial(500, 512);//imprime apenas posicoes selecionadas da memoria(final da memoria para ver os registradores)
+        //memoria.imprimeMemoria();
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
