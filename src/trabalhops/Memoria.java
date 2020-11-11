@@ -19,7 +19,7 @@ public class Memoria {
     private final int TAMANHO_PILHA = 10;
     private final int INICIO_INS_DADOS = 12;
     private final int QUANT_REGISTRADORES = 6;
-
+    
     public Memoria(Registrador[] regs) {//A memoria recebe como parametro os registradores que vao ser inseridos nela
         this.memoria = new ArrayList();//cria a memoria
         this.ponteiroPilha = 3;
@@ -87,6 +87,10 @@ public class Memoria {
     //Retorna uma posição da memória
     public String getMemoriaPosicao(int local) {
         return this.memoria.get(local);
+    }
+
+    public int getTAMANHO_MEMORIA() {
+        return TAMANHO_MEMORIA;
     }
 
 }

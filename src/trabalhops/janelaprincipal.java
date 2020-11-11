@@ -21,6 +21,10 @@ import javax.swing.JList;
 public class janelaprincipal extends javax.swing.JFrame {
     private Memoria memoria;
     private DefaultListModel<String> model;
+    private final int PC,SP,ACC,OPM,IR,IM;
+            
+            
+
     /**
      * Creates new form janelaprincipal
      */
@@ -43,6 +47,15 @@ public class janelaprincipal extends javax.swing.JFrame {
         Registrador[] regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         model = new DefaultListModel<String>();
         memoria = new Memoria(regs);
+        //criado para referenciar os registradores no vetor regs 
+        IM = 5; 
+        IR = 4;  
+        OPM = 3; 
+        ACC = 2; 
+        SP = 1; 
+        PC = 0;  
+        // ex: valorRegistradorAcc = regs[ACC].getRegistrador()
+        
         arquivo = new ManipulaArquivo("src/inputs/arquivo.txt", memoria);//pacote com as possiveis entradas
         boolean continua; //variavel de continuidade de loops
 
@@ -58,13 +71,18 @@ public class janelaprincipal extends javax.swing.JFrame {
         for (int i = 0; i<memoria.getMemoria().size();i++){
             model.addElement(memoria.getMemoria().get(i));
         }
+        
+        //Seta o vetor memória da interface 
         jList1.setModel(model);
-        acc.setText(memoria.getMemoria().get(508));
-        im.setText(memoria.getMemoria().get(511));
-        ir.setText(memoria.getMemoria().get(510));
-        opm.setText(memoria.getMemoria().get(509));
-        pc.setText(memoria.getMemoria().get(506));
-        sp.setText(memoria.getMemoria().get(507));
+        
+        //seta os valores dos registradores da interface
+        acc.setText(regs[ACC].getRegistrador());
+        im.setText(regs[IM].getRegistrador());
+        ir.setText(regs[IR].getRegistrador());
+        opm.setText(regs[OPM].getRegistrador());
+        sp.setText(regs[SP].getRegistrador());
+        pc.setText(regs[PC].getRegistrador());
+        
     }
 
     /**
@@ -226,8 +244,7 @@ public class janelaprincipal extends javax.swing.JFrame {
         short teste = Short.parseShort(campo1.getText());
         System.out.println(teste);
         //jLabel5.setText();
-        String[] s = {"Darlei", "Dauan"};
-        //jList1.set
+       //jList1.set
         DefaultListModel<String> model = new DefaultListModel<String>();
         for (int i = 0; i<memoria.getMemoria().size();i++){
             model.addElement(memoria.getMemoria().get(i));
