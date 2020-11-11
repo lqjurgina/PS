@@ -34,8 +34,16 @@ public class Memoria {
         }
         for (int i = TAMANHO_MEMORIA - QUANT_REGISTRADORES,c=0; i < TAMANHO_MEMORIA; i++,c++) {//aloca posicção dos registradores
             regs[c] = new Registrador(this,i);//cria um registrador e o atrela a essa memoria
-            memoria.add("00");//preenche a posicao do registrador com um valor  arbitrario
+            //memoria.add("00");//preenche a posicao do registrador com um valor  arbitrario
         }
+
+        //regs[0] = new Registrador(this,0);
+        memoria.add("pc");
+        memoria.add("sp");
+        memoria.add("acc");
+        memoria.add("opm");
+        memoria.add("ir");
+        memoria.add("im");
         
         //regs[0].setRegistrador("p");//Teste para verificar a aleteraçao do registrador dentro da memoria
 

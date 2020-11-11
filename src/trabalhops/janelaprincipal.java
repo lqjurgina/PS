@@ -7,7 +7,11 @@ package trabalhops;
 
 import java.awt.Color;
 import static java.awt.Color.red;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
 /**
@@ -15,20 +19,52 @@ import javax.swing.JList;
  * @author cassi
  */
 public class janelaprincipal extends javax.swing.JFrame {
-
+    private Memoria memoria;
+    private DefaultListModel<String> model;
     /**
      * Creates new form janelaprincipal
      */
-    public janelaprincipal() {
+    public janelaprincipal(String nome) throws FileNotFoundException {
         initComponents();
         campo1.setOpaque(false);
         campo1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jButton1.setOpaque(false);
         jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
-
+        jList1.setOpaque(false);
+        jList1.setCellRenderer(new TransparentListCellRenderer());
+        jScrollPane3.setOpaque(false);
+        jScrollPane3.getViewport().setOpaque(false);
         jButton2.setOpaque(false);
         jButton2.setBackground(new java.awt.Color(255, 255, 255, 0));
+        jButton3.setOpaque(false);
+        jButton3.setBackground(new java.awt.Color(255, 255, 255, 0));
+        jTextArea1.setText("	Olá, "+nome+"! Bem vindo ao Venture! \n Escolha o seu modo de operação para começarmos...\n\n Step - Executa o programa passo a passo\n Run - Executa todo o programa\n Reset - Reset o programa");
+        ManipulaArquivo arquivo;
+        Registrador[] regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
+        model = new DefaultListModel<String>();
+        memoria = new Memoria(regs);
+        arquivo = new ManipulaArquivo("src/inputs/arquivo.txt", memoria);//pacote com as possiveis entradas
+        boolean continua; //variavel de continuidade de loops
 
+        do {
+            continua = arquivo.leitor();//faz a leitura do arquivo, guardando o valor de retorno da funçao. Quando for false (0), sai do loop
+        } while (continua);
+        //while(arquivo.leitor());//sintaxe alternativa
+
+        //Imprime 
+//        regs[3].setRegistrador("k");//teste para ver a alteraçao do registrador na memoria
+        //memoria.imprimeMemoriaParcial(500, 512);//imprime apenas posicoes selecionadas da memoria(final da memoria para ver os registradores)
+        memoria.imprimeMemoria();
+        for (int i = 0; i<memoria.getMemoria().size();i++){
+            model.addElement(memoria.getMemoria().get(i));
+        }
+        jList1.setModel(model);
+        acc.setText(memoria.getMemoria().get(508));
+        im.setText(memoria.getMemoria().get(511));
+        ir.setText(memoria.getMemoria().get(510));
+        opm.setText(memoria.getMemoria().get(509));
+        pc.setText(memoria.getMemoria().get(506));
+        sp.setText(memoria.getMemoria().get(507));
     }
 
     /**
@@ -41,9 +77,9 @@ public class janelaprincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        pc = new javax.swing.JLabel();
+        sp = new javax.swing.JLabel();
+        acc = new javax.swing.JLabel();
         campo1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -52,24 +88,37 @@ public class janelaprincipal extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
+        opm = new javax.swing.JLabel();
+        ir = new javax.swing.JLabel();
+        im = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel1.setText("0");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, -1, -1));
+        pc.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        pc.setText("0");
+        jPanel1.add(pc, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel3.setText("0");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, -1, -1));
+        sp.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        sp.setText("0");
+        jPanel1.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 240, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel4.setText("ADD");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, -1, -1));
+        acc.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        acc.setText("ADD");
+        jPanel1.add(acc, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 300, -1, -1));
 
         campo1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         campo1.setBorder(null);
@@ -78,7 +127,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                 campo1ActionPerformed(evt);
             }
         });
-        jPanel1.add(campo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 330, 220, 40));
+        jPanel1.add(campo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 560, 220, 30));
 
         jButton1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -88,7 +137,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(833, 153, 110, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 400, 90, 30));
 
         jButton2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -99,30 +148,55 @@ public class janelaprincipal extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 153, 110, 30));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 400, 90, 30));
 
         jLabel5.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("0");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(816, 320, 288, 112));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(832, 464, 288, 112));
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
         jTextArea1.setRows(5);
+        jTextArea1.setText("\t      Olá! Bem vindo ao Venture! \nEscolha o seu modo de operação para começarmos...\n\nStep - Executa o programa passo a passo\nRun - Executa todo o programa\nReset - Reset o programa");
         jScrollPane1.setViewportView(jTextArea1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 528, 350, 100));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 330, 110));
 
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jList1.setForeground(new java.awt.Color(255, 255, 255));
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Item 1", "Item 2", "Item 3", " " };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jList1.setToolTipText("");
         jScrollPane3.setViewportView(jList1);
 
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 48, 128, 592));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 48, 150, 600));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/background ps - star trek.png"))); // NOI18N
+        opm.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        opm.setText("0");
+        jPanel1.add(opm, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 180, -1, -1));
+
+        ir.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        ir.setText("0");
+        jPanel1.add(ir, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 240, -1, -1));
+
+        im.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        im.setText("0");
+        jPanel1.add(im, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, -1, -1));
+
+        jButton3.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Run");
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 80, 30));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/background ps.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1152, -1));
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1152, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -148,17 +222,31 @@ public class janelaprincipal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        jLabel1.setText("Olá mundo");
+        pc.setText("Olá mundo");
         short teste = Short.parseShort(campo1.getText());
         System.out.println(teste);
         //jLabel5.setText();
         String[] s = {"Darlei", "Dauan"};
         //jList1.set
+        DefaultListModel<String> model = new DefaultListModel<String>();
+        for (int i = 0; i<memoria.getMemoria().size();i++){
+            model.addElement(memoria.getMemoria().get(i));
+        }
+        jList1.setModel(model);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Fechando jf = new Fechando();
+        jf.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
 
     public JList<String> getLista() {
         return jList1;
@@ -192,47 +280,35 @@ public class janelaprincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        Memoria memoria;
-        ManipulaArquivo arquivo;
 
-        Registrador[] regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new janelaprincipal().setVisible(true);
-            }
-        });
+        
+  
 
-        //Declaracao das variveis
-        memoria = new Memoria(regs);
-        arquivo = new ManipulaArquivo("src/inputs/arquivo.txt", memoria);//pacote com as possiveis entradas
-        boolean continua; //variavel de continuidade de loops
-
-        do {
-            continua = arquivo.leitor();//faz a leitura do arquivo, guardando o valor de retorno da funçao. Quando for false (0), sai do loop
-        } while (continua);
-        //while(arquivo.leitor());//sintaxe alternativa
-
-        //Imprime 
-        regs[3].setRegistrador("k");//teste para ver a alteraçao do registrador na memoria
-        memoria.imprimeMemoriaParcial(500, 512);//imprime apenas posicoes selecionadas da memoria(final da memoria para ver os registradores)
-        //memoria.imprimeMemoria();
+  
+       
+        
 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel acc;
     private javax.swing.JTextField campo1;
+    private javax.swing.JLabel im;
+    private javax.swing.JLabel ir;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList<String> jList1;
+    public javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel opm;
+    private javax.swing.JLabel pc;
+    private javax.swing.JLabel sp;
     // End of variables declaration//GEN-END:variables
 }
