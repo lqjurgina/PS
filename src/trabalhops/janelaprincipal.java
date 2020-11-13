@@ -22,7 +22,7 @@ public class janelaprincipal extends javax.swing.JFrame {
     private Memoria memoria;
     private DefaultListModel<String> model;
     private final int PC,SP,ACC,OPM,IR,IM;
-            
+    private Registrador[] regs;
             
 
     /**
@@ -44,7 +44,7 @@ public class janelaprincipal extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(255, 255, 255, 0));
         jTextArea1.setText("	Olá, "+nome+"! Bem vindo ao Venture! \n Escolha o seu modo de operação para começarmos...\n\n Step - Executa o programa passo a passo\n Run - Executa todo o programa\n Reset - Reset o programa");
         ManipulaArquivo arquivo;
-        Registrador[] regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
+        regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         model = new DefaultListModel<String>();
         memoria = new Memoria(regs);
         //criado para referenciar os registradores no vetor regs 
@@ -328,4 +328,202 @@ public class janelaprincipal extends javax.swing.JFrame {
     private javax.swing.JLabel pc;
     private javax.swing.JLabel sp;
     // End of variables declaration//GEN-END:variables
+
+    public void executarOperacao() {
+        int posicao, operacao, aux; // aux = valor auxiliar para operações aritméticas
+        String opcode, operando1, operando2;
+        
+        posicao = regs[PC].getRegistradorInt(); // pega a posição da instrução de PC
+        opcode = memoria.getMemoriaPosicao(posicao);        // pega a instrução da memória
+        regs[IR].setRegistrador(opcode);                    // guarda no registrador de instrução
+        operacao = FuncoesUteis.binaryStringToInt(opcode);  // converte para int para ficar fácil de operar
+        
+        // pega os operandos aqui para nao precisar repetir em cada caso
+        if (opcode.charAt(10) == '1') { // primeiro operando indireto
+            operando1 = memoria.getMemoriaPosicao(
+                        memoria.getMemoriaPosicaoInt(
+                        memoria.getMemoriaPosicaoInt(posicao+1)
+                        )
+                        ); 
+            operacao -= 32;
+        } else { // primeiro operando direto
+            operando1 = memoria.getMemoriaPosicao(
+                        memoria.getMemoriaPosicaoInt(posicao+1)
+                        );
+        }
+        
+        if (opcode.charAt(9) == '1') { // segundo operando indireto
+            operando2 = memoria.getMemoriaPosicao(
+                        memoria.getMemoriaPosicaoInt(
+                        memoria.getMemoriaPosicaoInt(posicao+1)
+                        )
+                        ); 
+            operacao -= 64;
+        } else { // segundo operando direto
+            operando2 = memoria.getMemoriaPosicao(
+                        memoria.getMemoriaPosicaoInt(posicao+2)
+                        );
+        }
+        
+        if (opcode.charAt(8) == '1') { // algum operando imediato
+            if (operacao == 141) { // operação copy -> segundo operando imediato
+                operando2 = memoria.getMemoriaPosicao(posicao+2);
+            } else { // qualquer outra operação -> primeiro operando imediato
+                operando1 = memoria.getMemoriaPosicao(posicao+1);
+            }
+            operacao -= 128;
+        }
+        
+        // realiza a operação
+        switch (operacao) {
+            case 2: // add
+                regs[ACC].add(operando1);
+                regs[PC].add(2);
+                break;
+                
+            case 0: // br
+                regs[PC].setRegistrador(memoria.getMemoriaPosicao(posicao+1));
+                break;
+                
+            case 5: // brneg
+                if (regs[ACC].getRegistradorInt() < 0)
+                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(posicao+1));
+                else
+                    regs[PC].add(2);
+                break;
+            
+            case 1: // brpos
+                if (regs[ACC].getRegistradorInt() > 0)
+                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(posicao+1));
+                else
+                    regs[PC].add(2);
+                break;
+                
+            case 4: // brzero
+                if (regs[ACC].getRegistradorInt() == 0)
+                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(posicao+1));
+                else
+                    regs[PC].add(2);
+                break;
+            
+            case 15: // call
+                if (regs[SP].getRegistradorInt() + 1 < memoria.getINICIO_INS_DADOS()) { // verifica se está dentro dos limites da pilha
+                    regs[SP].add(1);
+                    memoria.setMemoriaPosicao(regs[SP].getRegistradorInt(), regs[PC].getRegistrador());
+                    regs[PC].setRegistrador(operando1);
+                } else {
+                    // stack overflow
+                }
+                break;
+                
+            case 13: // copy
+                memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), operando2);
+                regs[PC].add(3);
+                break;
+                
+            case 10: // divide
+                aux = FuncoesUteis.binaryStringToInt(operando1);
+                if (aux != 0) // não pode fazer divisão por 0
+                    regs[ACC].setRegistrador(FuncoesUteis.intToBinaryString((int)regs[ACC].getRegistradorInt() / aux, 16));
+                // else erro divisão por 0?
+                regs[PC].add(2);
+                break;
+                
+            case 3: // load
+                regs[ACC].setRegistrador(operando1);
+                regs[PC].add(2);
+                break;
+                
+            case 14: // mult
+                aux = FuncoesUteis.binaryStringToInt(operando1);
+                regs[ACC].setRegistrador(FuncoesUteis.intToBinaryString(regs[ACC].getRegistradorInt() * aux, 16));
+                regs[PC].add(2);
+                break;
+                
+            case 12: // read (TODO)
+                // código de leitura aqui
+                // memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), <DADO LIDO>);
+                regs[PC].add(2);
+                break;
+                
+            case 9: // ret
+                if (regs[SP].getRegistradorInt() >= 2) { // verifica se está dentro dos limites da pilha
+                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(regs[SP].getRegistradorInt()));
+                    regs[SP].add(-1);
+                } else {
+                    // stack underflow
+                }
+                break;
+                
+            case 11: // stop (TODO)
+                // fimExecucao();
+                break;
+                
+            case 7: // store
+                memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), regs[ACC].getRegistrador());
+                regs[PC].add(2);
+                break;
+                
+            case 6: // sub
+                aux = FuncoesUteis.binaryStringToInt(operando1);
+                regs[ACC].add(-aux);
+                regs[PC].add(2);
+                break;
+                
+            case 8: // write (TODO)
+                // código de escrita aqui
+                // tela <- operando1
+                regs[PC].add(2);
+                break;
+            
+            default: // operação inválida
+                break;
+        }
+        /*
+        switch (opcao){
+
+
+	
+	case “00000000 00001111”: // call direto
+		PC +=2
+		SP +=1 //Fazer teste de incremento aqui
+		memoria[SP] = PC-2
+		PC = memoria[memoria[PC-1]];	
+		break;
+	case “00000000 00101111”: // call indireto
+		PC+=2
+                SP +=1 //Fazer teste de incremento aqui
+		memoria[SP] = PC-2
+		PC = memoria[memoria[memoria[PC-1]]];
+		break;
+
+	case “00000000 00001100”: // read direto
+		PC +=2;
+		memoria[memoria[PC-1]] = getInput;
+		break;
+	case “00000000 00101100”: // read indireto
+		PC +=2;
+		memoria[memoria[memoria[PC-1]]] = getInput;
+		break;
+	
+	case “00000000 00001001”: // ret
+                PC += 1;
+		PC = memoria[SP]
+		SP += 1;
+		break;
+        
+	case “00000000 00001000”: // write direto
+                PC += 2;
+		outPut = memoria[memoria[PC-1]];
+		break;
+	case “00000000 00101000”: // write indireto
+		PC += 2;
+		setOutput = memoria[memoria[memoria[PC-1]]];
+		break;
+	case “00000000 10001000”: // write imediato
+		PC += 2;
+		outPut = memoria[PC-1];
+		break
+        */
+    }
 }

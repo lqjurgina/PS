@@ -88,6 +88,11 @@ public class Memoria {
     public String getMemoriaPosicao(int local) {
         return this.memoria.get(local);
     }
+    
+    // Retorna uma posição da memória, convertido para inteiro
+    public int getMemoriaPosicaoInt(int local) {
+        return FuncoesUteis.binaryStringToInt(this.getMemoriaPosicao(local));
+    }
 
     public int getTAMANHO_MEMORIA() {
         return TAMANHO_MEMORIA;
