@@ -338,75 +338,118 @@ public class janelaprincipal extends javax.swing.JFrame {
         regs[IR].setRegistrador(opcode);                    // guarda no registrador de instrução
         operacao = FuncoesUteis.binaryStringToInt(opcode);  // converte para int para ficar fácil de operar
         
-        // pega os operandos aqui para nao precisar repetir em cada caso
-        if (opcode.charAt(10) == '1') { // primeiro operando indireto
-            operando1 = memoria.getMemoriaPosicao(
-                        memoria.getMemoriaPosicaoInt(
-                        memoria.getMemoriaPosicaoInt(posicao+1)
-                        )
-                        ); 
-            operacao -= 32;
-        } else { // primeiro operando direto
-            operando1 = memoria.getMemoriaPosicao(
-                        memoria.getMemoriaPosicaoInt(posicao+1)
-                        );
-        }
-        
-        if (opcode.charAt(9) == '1') { // segundo operando indireto
-            operando2 = memoria.getMemoriaPosicao(
-                        memoria.getMemoriaPosicaoInt(
-                        memoria.getMemoriaPosicaoInt(posicao+1)
-                        )
-                        ); 
-            operacao -= 64;
-        } else { // segundo operando direto
-            operando2 = memoria.getMemoriaPosicao(
-                        memoria.getMemoriaPosicaoInt(posicao+2)
-                        );
-        }
-        
-        if (opcode.charAt(8) == '1') { // algum operando imediato
-            if (operacao == 141) { // operação copy -> segundo operando imediato
-                operando2 = memoria.getMemoriaPosicao(posicao+2);
-            } else { // qualquer outra operação -> primeiro operando imediato
-                operando1 = memoria.getMemoriaPosicao(posicao+1);
-            }
-            operacao -= 128;
-        }
-        
         // realiza a operação
         switch (operacao) {
-            case 2: // add
+            // ADD
+            case 2:   // add direto
+            case 34:  // add indireto
+            case 130: // add imediato
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                )
+                                ); 
+                } else if (opcode.charAt(8) == '1') { // operando imediato
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                }
+                
+                // executa operação
                 regs[ACC].add(operando1);
                 regs[PC].add(2);
                 break;
                 
-            case 0: // br
-                regs[PC].setRegistrador(memoria.getMemoriaPosicao(posicao+1));
+            // BR
+            case 0:  // br direto
+            case 32: // br indireto
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                }
+                
+                // executa operação
+                regs[PC].setRegistrador(operando1);
                 break;
                 
-            case 5: // brneg
+            // BRNEG
+            case 5:  // brneg direto
+            case 37: // brneg indireto
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                }
+                
+                // executa operação
                 if (regs[ACC].getRegistradorInt() < 0)
-                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(posicao+1));
+                    regs[PC].setRegistrador(operando1);
                 else
                     regs[PC].add(2);
                 break;
             
-            case 1: // brpos
+            // BRPOS
+            case 1:  // brpos direto
+            case 33: // brpos indireto
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                }
+                
+                // executa operação
                 if (regs[ACC].getRegistradorInt() > 0)
-                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(posicao+1));
+                    regs[PC].setRegistrador(operando1);
                 else
                     regs[PC].add(2);
                 break;
                 
-            case 4: // brzero
+            // BRZERO
+            case 4:  // brzero direto
+            case 36: // brzero indireto
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                }
+                
+                // executa operação
                 if (regs[ACC].getRegistradorInt() == 0)
-                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(posicao+1));
+                    regs[PC].setRegistrador(operando1);
                 else
                     regs[PC].add(2);
                 break;
             
-            case 15: // call
+            // CALL
+            case 15: // call direto
+            case 47: // call indireto
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                }
+                
+                // executa operação
                 if (regs[SP].getRegistradorInt() + 1 < memoria.getINICIO_INS_DADOS()) { // verifica se está dentro dos limites da pilha
                     regs[SP].add(1);
                     memoria.setMemoriaPosicao(regs[SP].getRegistradorInt(), regs[PC].getRegistrador());
@@ -416,12 +459,60 @@ public class janelaprincipal extends javax.swing.JFrame {
                 }
                 break;
                 
-            case 13: // copy
+            // COPY
+            case 13:  // copy direto-direto
+            case 45:  // copy indireto-direto
+            case 77:  // copy direto-indireto
+            case 109: // copy indireto-indireto
+            case 141: // copy direto-imediato
+            case 173: // copy indireto-imediato
+                // pega operandos
+                if (opcode.charAt(10) == '1') { // operando 1 indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                } else { // operando 1 direto
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                }
+                if (opcode.charAt(9) == '1') { // operando 2 indireto
+                    operando2 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(
+                                memoria.getMemoriaPosicaoInt(posicao+2)
+                                )
+                                ); 
+                } else if (opcode.charAt(8) == '1') { // operando 2 imediato
+                    operando2 = memoria.getMemoriaPosicao(posicao+2);
+                } else { // operando 2 direto
+                    operando2 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+2)
+                                );
+                }
+                
+                // executa operação
                 memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), operando2);
                 regs[PC].add(3);
                 break;
                 
-            case 10: // divide
+            // DIVIDE
+            case 10:  // divide direto
+            case 42:  // divide indireto
+            case 138: // divide imediato
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                )
+                                ); 
+                } else if (opcode.charAt(8) == '1') { // operando imediato
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                }
+                
+                // executa operação
                 aux = FuncoesUteis.binaryStringToInt(operando1);
                 if (aux != 0) // não pode fazer divisão por 0
                     regs[ACC].setRegistrador(FuncoesUteis.intToBinaryString((int)regs[ACC].getRegistradorInt() / aux, 16));
@@ -429,23 +520,74 @@ public class janelaprincipal extends javax.swing.JFrame {
                 regs[PC].add(2);
                 break;
                 
-            case 3: // load
+            // LOAD
+            case 3:   // load direto
+            case 35:  // load indireto
+            case 131: // load imediato
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                )
+                                ); 
+                } else if (opcode.charAt(8) == '1') { // operando imediato
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                }
+                
+                // executa operação
                 regs[ACC].setRegistrador(operando1);
                 regs[PC].add(2);
                 break;
                 
-            case 14: // mult
+            // MULT
+            case 14:  // mult direto
+            case 46:  // mult indireto
+            case 142: // mult imediato
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                )
+                                ); 
+                } else if (opcode.charAt(8) == '1') { // operando imediato
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                }
+                
+                // executa operação
                 aux = FuncoesUteis.binaryStringToInt(operando1);
                 regs[ACC].setRegistrador(FuncoesUteis.intToBinaryString(regs[ACC].getRegistradorInt() * aux, 16));
                 regs[PC].add(2);
                 break;
                 
-            case 12: // read (TODO)
-                // código de leitura aqui
-                // memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), <DADO LIDO>);
+            // READ (TODO)
+            case 12: // read direto
+            case 44: // read indireto
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                }
+                
+                // executa operação
+                // !<código de leitura aqui>!
+                // memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), !<DADO LIDO>!);
                 regs[PC].add(2);
                 break;
                 
+            // RET
             case 9: // ret
                 if (regs[SP].getRegistradorInt() >= 2) { // verifica se está dentro dos limites da pilha
                     regs[PC].setRegistrador(memoria.getMemoriaPosicao(regs[SP].getRegistradorInt()));
@@ -455,23 +597,74 @@ public class janelaprincipal extends javax.swing.JFrame {
                 }
                 break;
                 
-            case 11: // stop (TODO)
+            // STOP (TODO)
+            case 11: // stop
                 // fimExecucao();
                 break;
                 
-            case 7: // store
+            // STORE
+            case 7:  // store direto
+            case 39: // store indireto
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                }
+                
+                // executa operação
                 memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), regs[ACC].getRegistrador());
                 regs[PC].add(2);
                 break;
                 
-            case 6: // sub
+            // SUB
+            case 6:   // sub direto
+            case 38:  // sub indireto
+            case 134: // sub imediato
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                )
+                                ); 
+                } else if (opcode.charAt(8) == '1') { // operando imediato
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                }
+                
+                // executa operação
                 aux = FuncoesUteis.binaryStringToInt(operando1);
                 regs[ACC].add(-aux);
                 regs[PC].add(2);
                 break;
                 
-            case 8: // write (TODO)
-                // código de escrita aqui
+            // WRITE
+            case 8:   // write direto
+            case 40:  // write indireto
+            case 136: // write imediato
+                // pega operando
+                if (opcode.charAt(10) == '1') { // operando indireto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                )
+                                ); 
+                } else if (opcode.charAt(8) == '1') { // operando imediato
+                    operando1 = memoria.getMemoriaPosicao(posicao+1);
+                } else { // operando direto
+                    operando1 = memoria.getMemoriaPosicao(
+                                memoria.getMemoriaPosicaoInt(posicao+1)
+                                );
+                }
+                
+                // executa operação
+                // !<código de escrita aqui>!
                 // tela <- operando1
                 regs[PC].add(2);
                 break;
@@ -481,22 +674,6 @@ public class janelaprincipal extends javax.swing.JFrame {
         }
         /*
         switch (opcao){
-
-
-	
-	case “00000000 00001111”: // call direto
-		PC +=2
-		SP +=1 //Fazer teste de incremento aqui
-		memoria[SP] = PC-2
-		PC = memoria[memoria[PC-1]];	
-		break;
-	case “00000000 00101111”: // call indireto
-		PC+=2
-                SP +=1 //Fazer teste de incremento aqui
-		memoria[SP] = PC-2
-		PC = memoria[memoria[memoria[PC-1]]];
-		break;
-
 	case “00000000 00001100”: // read direto
 		PC +=2;
 		memoria[memoria[PC-1]] = getInput;
@@ -505,13 +682,6 @@ public class janelaprincipal extends javax.swing.JFrame {
 		PC +=2;
 		memoria[memoria[memoria[PC-1]]] = getInput;
 		break;
-	
-	case “00000000 00001001”: // ret
-                PC += 1;
-		PC = memoria[SP]
-		SP += 1;
-		break;
-        
 	case “00000000 00001000”: // write direto
                 PC += 2;
 		outPut = memoria[memoria[PC-1]];
@@ -524,6 +694,7 @@ public class janelaprincipal extends javax.swing.JFrame {
 		PC += 2;
 		outPut = memoria[PC-1];
 		break
+        }
         */
     }
 }
