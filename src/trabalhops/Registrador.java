@@ -29,13 +29,26 @@ public class Registrador{
         return m.getMemoriaPosicao(posicao);
     }
     
+    // Retorna o valor do registrador convertido para int
+    public int getRegistradorInt() {
+        return m.getMemoriaPosicaoInt(posicao);
+    }
+    
     /**
      * Incrementa o registrador
-     * @param numero Número que vai ser adicionado ao registrador
+     * @param numero Número inteiro que vai ser adicionado ao registrador
      */
     public void add(int numero) {
         int reg = FuncoesUteis.binaryStringToInt(this.getRegistrador());       // pega o valor do registrador e converte pra int
         this.setRegistrador(FuncoesUteis.intToBinaryString(reg + numero, 16)); // soma o valor com a entrada, converte pra string binario e seta o valor novo
+    }
+    
+    /**
+     * Incrementa o registrador
+     * @param binario String em binário, cujo valor vai ser adicionado ao registrador
+     */
+    public void add(String binario) {
+        this.add(FuncoesUteis.binaryStringToInt(binario));
     }
     
 }
