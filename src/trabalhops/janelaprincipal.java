@@ -23,7 +23,7 @@ public class janelaprincipal extends javax.swing.JFrame {
     private DefaultListModel<String> model;
     private final int PC,SP,ACC,OPM,IR,IM;
     private Registrador[] regs;
-            
+    private int leitura;      
 
     /**
      * Creates new form janelaprincipal
@@ -76,12 +76,19 @@ public class janelaprincipal extends javax.swing.JFrame {
         jList1.setModel(model);
         
         //seta os valores dos registradores da interface
-        acc.setText(regs[ACC].getRegistrador());
-        im.setText(regs[IM].getRegistrador());
+//        acc.setText(regs[ACC].getRegistrador());
+//        im.setText(regs[IM].getRegistrador());
+//        ir.setText(regs[IR].getRegistrador());
+//        opm.setText(regs[OPM].getRegistrador());
+//        sp.setText(regs[SP].getRegistrador());
+//        pc.setText(regs[PC].getRegistrador());
+        regs[IR].setRegistrador(memoria.getMemoria().get(memoria.getINICIO_INS_DADOS()));
+        acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
+        im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
         ir.setText(regs[IR].getRegistrador());
         opm.setText(regs[OPM].getRegistrador());
-        sp.setText(regs[SP].getRegistrador());
-        pc.setText(regs[PC].getRegistrador());
+        sp.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[SP].getRegistrador())));
+        pc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[PC].getRegistrador())));
         
     }
 
@@ -126,17 +133,20 @@ public class janelaprincipal extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pc.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        pc.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        pc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         pc.setText("0");
-        jPanel1.add(pc, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, -1, -1));
+        jPanel1.add(pc, new org.netbeans.lib.awtextra.AbsoluteConstraints(227, 180, 192, 32));
 
-        sp.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        sp.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        sp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sp.setText("0");
-        jPanel1.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 240, -1, -1));
+        jPanel1.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 192, 32));
 
-        acc.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        acc.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        acc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acc.setText("ADD");
-        jPanel1.add(acc, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 300, -1, -1));
+        jPanel1.add(acc, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 300, 192, 32));
 
         campo1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         campo1.setBorder(null);
@@ -176,7 +186,7 @@ public class janelaprincipal extends javax.swing.JFrame {
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.setText("\t      Olá! Bem vindo ao Venture! \nEscolha o seu modo de operação para começarmos...\n\nStep - Executa o programa passo a passo\nRun - Executa todo o programa\nReset - Reset o programa");
         jScrollPane1.setViewportView(jTextArea1);
@@ -196,17 +206,20 @@ public class janelaprincipal extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 48, 150, 600));
 
-        opm.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        opm.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        opm.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         opm.setText("0");
-        jPanel1.add(opm, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 180, -1, -1));
+        jPanel1.add(opm, new org.netbeans.lib.awtextra.AbsoluteConstraints(461, 180, 208, 32));
 
-        ir.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        ir.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        ir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ir.setText("0");
-        jPanel1.add(ir, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 240, -1, -1));
+        jPanel1.add(ir, new org.netbeans.lib.awtextra.AbsoluteConstraints(464, 240, 192, 32));
 
-        im.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        im.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        im.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         im.setText("0");
-        jPanel1.add(im, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, -1, -1));
+        jPanel1.add(im, new org.netbeans.lib.awtextra.AbsoluteConstraints(464, 300, 192, 32));
 
         jButton3.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
@@ -232,19 +245,75 @@ public class janelaprincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    //A função abaixo espera um entrada do input, ela é executada com a tecla enter
     private void campo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo1ActionPerformed
         // TODO add your handling code here:
-        jLabel5.setText(campo1.getText());
-    }//GEN-LAST:event_campo1ActionPerformed
+        int posicao, operacao, aux; // aux = valor auxiliar para operações aritméticas
+        String opcode, operando1, operando2;
+        
+        posicao = regs[PC].getRegistradorInt(); // pega a posição da instrução de PC
+        opcode = memoria.getMemoriaPosicao(posicao);        // pega a instrução da memória
+        //regs[IR].setRegistrador(opcode);                    // guarda no registrador de instrução
+        operacao = FuncoesUteis.binaryStringToInt(opcode);  // converte para int para ficar fácil de operar
+        
+        // realiza a operação
+        if(operacao == 12 || operacao == 44){
+            leitura = Integer.parseInt(campo1.getText());
+            System.out.println(leitura);
+            jTextArea1.setText(campo1.getText());
 
+            executarOperacao();
+            acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
+            im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
+            ir.setText(regs[IR].getRegistrador());
+            opm.setText(regs[OPM].getRegistrador());
+            sp.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[SP].getRegistrador())));//
+            pc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[PC].getRegistrador())));
+
+            DefaultListModel<String> model = new DefaultListModel<String>();
+            for (int i = 0; i<memoria.getMemoria().size();i++){
+                model.addElement(memoria.getMemoria().get(i));
+            } 
+        }
+        
+        
+        //jLabel5.setText(campo1.getText());
+    }//GEN-LAST:event_campo1ActionPerformed
+    //essa função executa o botão step quando ele é clicado
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        pc.setText("Olá mundo");
-        short teste = Short.parseShort(campo1.getText());
-        System.out.println(teste);
-        //jLabel5.setText();
-       //jList1.set
+
+       int posicao, operacao, aux; // aux = valor auxiliar para operações aritméticas
+        String opcode, operando1, operando2;
+        
+        posicao = regs[PC].getRegistradorInt(); // pega a posição da instrução de PC
+        opcode = memoria.getMemoriaPosicao(posicao);        // pega a instrução da memória
+        //regs[IR].setRegistrador(opcode);                    // guarda no registrador de instrução
+        operacao = FuncoesUteis.binaryStringToInt(opcode);  // converte para int para ficar fácil de operar
+        
+        // realiza a operação
+        if(operacao == 12 || operacao == 44){
+            jTextArea1.setText("Esperando leitura.\nDigite um valor decimal válido\npara não dar pau no programa.\nClique enter para confirmar.");
+        }else{
+            executarOperacao();
+        }
+
+        
+        acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
+        im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
+        ir.setText(regs[IR].getRegistrador());//registrador de instruções
+        opm.setText(regs[OPM].getRegistrador());
+        sp.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[SP].getRegistrador())));//
+        pc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[PC].getRegistrador())));
+        
+        
+//        acc.setText(regs[ACC].getRegistrador());
+//        im.setText(regs[IM].getRegistrador());
+//        ir.setText(regs[IR].getRegistrador());
+//        opm.setText(regs[OPM].getRegistrador());
+//        sp.setText(regs[SP].getRegistrador());
+//        pc.setText(regs[PC].getRegistrador());
+       
         DefaultListModel<String> model = new DefaultListModel<String>();
         for (int i = 0; i<memoria.getMemoria().size();i++){
             model.addElement(memoria.getMemoria().get(i));
@@ -345,12 +414,15 @@ public class janelaprincipal extends javax.swing.JFrame {
             case 34:  // add indireto
             case 130: // add imediato
                 // pega operando
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 )
                                 ); 
+                    
                 } else if (opcode.charAt(8) == '1') { // operando imediato
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
                 } else { // operando direto
@@ -359,6 +431,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 );
                 }
                 
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                System.err.println(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 // executa operação
                 regs[ACC].add(operando1);
                 regs[PC].add(2);
@@ -367,6 +442,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             // BR
             case 0:  // br direto
             case 32: // br indireto
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -375,7 +452,8 @@ public class janelaprincipal extends javax.swing.JFrame {
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
                 }
-                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 // executa operação
                 regs[PC].setRegistrador(operando1);
                 break;
@@ -383,6 +461,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             // BRNEG
             case 5:  // brneg direto
             case 37: // brneg indireto
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -391,6 +471,8 @@ public class janelaprincipal extends javax.swing.JFrame {
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
                 }
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 if (regs[ACC].getRegistradorInt() < 0)
@@ -402,6 +484,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             // BRPOS
             case 1:  // brpos direto
             case 33: // brpos indireto
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -410,6 +494,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
                 }
+                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 if (regs[ACC].getRegistradorInt() > 0)
@@ -421,6 +508,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             // BRZERO
             case 4:  // brzero direto
             case 36: // brzero indireto
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -429,6 +518,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
                 }
+                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 if (regs[ACC].getRegistradorInt() == 0)
@@ -440,6 +532,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             // CALL
             case 15: // call direto
             case 47: // call indireto
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -448,6 +542,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
                 }
+                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 if (regs[SP].getRegistradorInt() + 1 < memoria.getINICIO_INS_DADOS()) { // verifica se está dentro dos limites da pilha
@@ -466,6 +563,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             case 109: // copy indireto-indireto
             case 141: // copy direto-imediato
             case 173: // copy indireto-imediato
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operandos
                 if (opcode.charAt(10) == '1') { // operando 1 indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -488,6 +587,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 );
                 }
                 
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
+                
                 // executa operação
                 memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), operando2);
                 regs[PC].add(3);
@@ -497,6 +599,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             case 10:  // divide direto
             case 42:  // divide indireto
             case 138: // divide imediato
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -511,6 +615,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
                 }
+                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 aux = FuncoesUteis.binaryStringToInt(operando1);
@@ -524,6 +631,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             case 3:   // load direto
             case 35:  // load indireto
             case 131: // load imediato
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -538,6 +647,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
                 }
+                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 regs[ACC].setRegistrador(operando1);
@@ -548,6 +660,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             case 14:  // mult direto
             case 46:  // mult indireto
             case 142: // mult imediato
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -562,6 +676,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
                 }
+                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 aux = FuncoesUteis.binaryStringToInt(operando1);
@@ -572,6 +689,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             // READ (TODO)
             case 12: // read direto
             case 44: // read indireto
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -580,32 +699,45 @@ public class janelaprincipal extends javax.swing.JFrame {
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
                 }
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 // !<código de leitura aqui>!
-                // memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), !<DADO LIDO>!);
+                memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), FuncoesUteis.intToBinaryString(leitura, 16));
+                
+                
                 regs[PC].add(2);
                 break;
                 
             // RET
             case 9: // ret
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 if (regs[SP].getRegistradorInt() >= 2) { // verifica se está dentro dos limites da pilha
                     regs[PC].setRegistrador(memoria.getMemoriaPosicao(regs[SP].getRegistradorInt()));
                     regs[SP].add(-1);
                 } else {
                     // stack underflow
                 }
+                
+                //Verificar IM aqui
                 break;
                 
             // STOP (TODO)
             case 11: // stop
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // fimExecucao();
+                
                 break;
                 
             // STORE
             case 7:  // store direto
             case 39: // store indireto
                 // pega operando
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
@@ -613,6 +745,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
                 }
+                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), regs[ACC].getRegistrador());
@@ -623,6 +758,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             case 6:   // sub direto
             case 38:  // sub indireto
             case 134: // sub imediato
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -637,6 +774,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
                 }
+                
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
                 
                 // executa operação
                 aux = FuncoesUteis.binaryStringToInt(operando1);
@@ -648,6 +788,8 @@ public class janelaprincipal extends javax.swing.JFrame {
             case 8:   // write direto
             case 40:  // write indireto
             case 136: // write imediato
+                regs[IR].setRegistrador(opcode);
+                ir.setText(regs[IR].getRegistrador());
                 // pega operando
                 if (opcode.charAt(10) == '1') { // operando indireto
                     operando1 = memoria.getMemoriaPosicao(
@@ -663,9 +805,13 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 );
                 }
                 
+//                regs[IM].setRegistrador(Integer.toString(posicao+1));
+//                im.setText(regs[IM].getRegistrador());
+                
                 // executa operação
                 // !<código de escrita aqui>!
                 // tela <- operando1
+                jLabel5.setText(Integer.toString(FuncoesUteis.binaryStringToInt(operando1)));
                 regs[PC].add(2);
                 break;
             

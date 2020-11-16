@@ -38,12 +38,12 @@ public class Memoria {
         }
 
         //regs[0] = new Registrador(this,0);
-        memoria.add("pc");
-        memoria.add("sp");
-        memoria.add("acc");
-        memoria.add("opm");
-        memoria.add("ir");
-        memoria.add("im");
+        memoria.add("0000000000001100");//PC
+        memoria.add("0000000000000010");
+        memoria.add("0000000000000000");
+        memoria.add("xx");
+        memoria.add("000");
+        memoria.add("0000000000001100");
         
         //regs[0].setRegistrador("p");//Teste para verificar a aleteraçao do registrador dentro da memoria
 
