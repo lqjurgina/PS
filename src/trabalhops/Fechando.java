@@ -58,7 +58,7 @@ public class Fechando extends javax.swing.JFrame {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/tchau.gif"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/tchau.gif"))); // NOI18N
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
@@ -66,7 +66,7 @@ public class Fechando extends javax.swing.JFrame {
         jLabel1.setText("Pressione F para fechar");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 590, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/Fechamento.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Fechamento.png"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));

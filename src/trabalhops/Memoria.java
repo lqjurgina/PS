@@ -34,25 +34,30 @@ public class Memoria {
         }
         for (int i = TAMANHO_MEMORIA - QUANT_REGISTRADORES,c=0; i < TAMANHO_MEMORIA; i++,c++) {//aloca posicção dos registradores
             regs[c] = new Registrador(this,i);//cria um registrador e o atrela a essa memoria
-            //memoria.add("00");//preenche a posicao do registrador com um valor  arbitrario
         }
 
-        //regs[0] = new Registrador(this,0);
-        memoria.add("0000000000001100");//PC
-        memoria.add("0000000000000010");
-        memoria.add("0000000000000000");
-        memoria.add("xx");
-        memoria.add("000");
-        memoria.add("0000000000001100");
-        
-        //regs[0].setRegistrador("p");//Teste para verificar a aleteraçao do registrador dentro da memoria
+        //memoria.add("0000000000001100");//PC
+        //memoria.add("0000000000000010"); //SP
+        //memoria.add("0000000000000000"); //ACC
+       // memoria.add("xx"); //OPM
+        //memoria.add("000"); //IR
+        //memoria.add("0000000000001100");//IM
 
-//        for (int i = 0; i < TAMANHO_MEMORIA; i++) {
-//            System.out.println(this.memoria[i]);
-//        }
-        //for (String string : memoria) {
-        //    System.out.println(string);
-        //}
+        //Seta os valores dos registradores
+        regs[0].add("0000000000001100");//PC
+        regs[1].add("0000000000000010");//SP
+        regs[2].add("0000000000000000");//ACC
+        regs[3].add("xx");//OPM
+        regs[4].add("000");//IR
+        regs[5].add("0000000000001100");//IM
+        
+
+        /*for (int i = 0; i < TAMANHO_MEMORIA; i++) {
+            System.out.println(this.memoria[i]);
+        }
+        for (String string : memoria) {
+            System.out.println(string);
+        }*/
     }
 
     //retorna a string memória. Tomar cuida ao manipular a memória com esse método.

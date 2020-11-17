@@ -75,11 +75,11 @@ public class Abertura extends javax.swing.JFrame {
         });
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 500, 250, 40));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/GIF DO FOGUETE COM AS PATAS.gif"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/GIF DO FOGUETE COM AS PATAS.gif"))); // NOI18N
         jLabel3.setText("jLabel3");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 90, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/Abertura.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Abertura.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

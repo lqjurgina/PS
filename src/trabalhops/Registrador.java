@@ -33,7 +33,8 @@ public class Registrador{
     public int getRegistradorInt() {
         return m.getMemoriaPosicaoInt(posicao);
     }
-    
+
+
     /**
      * Incrementa o registrador
      * @param numero Número inteiro que vai ser adicionado ao registrador
