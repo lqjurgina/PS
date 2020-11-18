@@ -36,21 +36,21 @@ public class Memoria {
             regs[c] = new Registrador(this,i);//cria um registrador e o atrela a essa memoria
         }
 
-        //memoria.add("0000000000001100");//PC
-        //memoria.add("0000000000000010"); //SP
-        //memoria.add("0000000000000000"); //ACC
-       // memoria.add("xx"); //OPM
-        //memoria.add("000"); //IR
-        //memoria.add("0000000000001100");//IM
+        memoria.add("0000000000001100");//PC
+        memoria.add("0000000000000010"); //SP
+        memoria.add("0000000000000000"); //ACC
+        memoria.add("xx"); //OPM
+        memoria.add("000"); //IR
+        memoria.add("0000000000001100");//IM
 
         //Seta os valores dos registradores
-        regs[0].add("0000000000001100");//PC
-        regs[1].add("0000000000000010");//SP
-        regs[2].add("0000000000000000");//ACC
-        regs[3].add("xx");//OPM
-        regs[4].add("000");//IR
-        regs[5].add("0000000000001100");//IM
-        
+//        regs[0].add("0000000000001100");//PC
+//        regs[1].add("0000000000000010");//SP
+//        regs[2].add("0000000000000000");//ACC
+//        regs[3].add("xx");//OPM
+//        regs[4].add("000");//IR
+//        regs[5].add("0000000000001100");//IM
+//        
 
         /*for (int i = 0; i < TAMANHO_MEMORIA; i++) {
             System.out.println(this.memoria[i]);
