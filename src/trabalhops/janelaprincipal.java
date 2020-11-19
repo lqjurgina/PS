@@ -638,9 +638,11 @@ public class janelaprincipal extends javax.swing.JFrame {
                 
                 // executa operação
                 if (regs[SP].getRegistradorInt() + 1 < memoria.getINICIO_INS_DADOS()) { // verifica se está dentro dos limites da pilha
-                    regs[SP].add(1);
+                    regs[PC].add(2);
+                                   //(int local, String valor)
                     memoria.setMemoriaPosicao(regs[SP].getRegistradorInt(), regs[PC].getRegistrador());
                     regs[PC].setRegistrador(operando1);
+                    regs[SP].add(1);
                 } else {
                     // stack overflow
                 }
@@ -799,20 +801,8 @@ public class janelaprincipal extends javax.swing.JFrame {
                 
                 // executa operação
                 //leitura = textFieldAlgumaCoisa.getText();
-                //
-                new Thread(){
-
-
-                @Override
-                public synchronized void start() {
-                    super.start(); //To change body of generated methods, choose Tools | Templates.
-                     
-                }
-
-                };
-                
-                
-                
+                //            
+                              
                 memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), FuncoesUteis.intToBinaryString(leitura, 16));
 
                 regs[PC].add(2);
@@ -821,8 +811,9 @@ public class janelaprincipal extends javax.swing.JFrame {
             // RET
             case 9: // ret
                 if (regs[SP].getRegistradorInt() >= 2) { // verifica se está dentro dos limites da pilha
-                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(regs[SP].getRegistradorInt()));
                     regs[SP].add(-1);
+                    regs[PC].setRegistrador(memoria.getMemoriaPosicao(regs[SP].getRegistradorInt()));
+                    
                     jTextArea1.setText("Sub-programa finalizado... Retomando anterior.");
                 } else {
                     // stack underflow

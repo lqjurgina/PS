@@ -1,3 +1,7 @@
+====================================
+calcula o fatorial de uma entrada
+copiar o código a abaixo e por em arquivo.txt na pasta inputs 
+====================================
 0000000000001100
 0000000000100010
 0000000000000011
