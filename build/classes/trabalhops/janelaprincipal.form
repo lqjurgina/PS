@@ -180,7 +180,7 @@
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Monospaced" size="12" style="0"/>
+                  <Font name="Monospaced" size="10" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
                 <Property name="text" type="java.lang.String" value="&#x9;      Ol&#xe1;! Bem vindo ao Venture! &#xa;Escolha o seu modo de opera&#xe7;&#xe3;o para come&#xe7;armos...&#xa;&#xa;Step - Executa o programa passo a passo&#xa;Run - Executa todo o programa&#xa;Reset - Reset o programa"/>
@@ -281,6 +281,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Run"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="550" y="400" width="80" height="30"/>

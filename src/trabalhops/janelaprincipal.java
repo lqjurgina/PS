@@ -23,13 +23,17 @@ public class janelaprincipal extends javax.swing.JFrame {
     private DefaultListModel<String> model;
     private final int PC,SP,ACC,OPM,IR,IM;
     private Registrador[] regs;
-    private int leitura;      
-
+    private int leitura;
+    private Boolean run,opcaoRun;
+    private String nomeUsuario;
     /**
      * Creates new form janelaprincipal
      */
     public janelaprincipal(String nome) throws FileNotFoundException {
         initComponents();
+        nomeUsuario = nome;
+        //run = true;
+        opcaoRun = false;
         campo1.setOpaque(false);
         campo1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jButton1.setOpaque(false);
@@ -42,7 +46,7 @@ public class janelaprincipal extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(255, 255, 255, 0));
         jButton3.setOpaque(false);
         jButton3.setBackground(new java.awt.Color(255, 255, 255, 0));
-        jTextArea1.setText("	Olá, "+nome+"! Bem vindo ao Venture! \n Escolha o seu modo de operação para começarmos...\n\n Step - Executa o programa passo a passo\n Run - Executa todo o programa\n Reset - Reset o programa");
+        jTextArea1.setText("	Olá, "+nomeUsuario+"!\n Bem vindo ao Venture! \n Escolha o seu modo de operação para começarmos...\n\n Step - Executa o programa passo a passo\n Run - Executa todo o programa\n Reset - Reset o programa");
         ManipulaArquivo arquivo;
         regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         model = new DefaultListModel<String>();
@@ -185,7 +189,7 @@ public class janelaprincipal extends javax.swing.JFrame {
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.setText("\t      Olá! Bem vindo ao Venture! \nEscolha o seu modo de operação para começarmos...\n\nStep - Executa o programa passo a passo\nRun - Executa todo o programa\nReset - Reset o programa");
         jScrollPane1.setViewportView(jTextArea1);
@@ -223,9 +227,14 @@ public class janelaprincipal extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Run");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 80, 30));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/background ps.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/background ps.png"))); // NOI18N
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1152, -1));
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1152, -1));
 
@@ -263,6 +272,10 @@ public class janelaprincipal extends javax.swing.JFrame {
             jTextArea1.setText(campo1.getText());
 
             executarOperacao();
+            if(opcaoRun){
+                runButton();
+            }
+            
             acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
             im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
             ir.setText(regs[IR].getRegistrador());
@@ -320,9 +333,45 @@ public class janelaprincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            resetButton();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(janelaprincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+    public void resetButton() throws FileNotFoundException{
+        opcaoRun = false;
+        jLabel5.setText("0"); 
+        campo1.setText("");
+       regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
+        model = new DefaultListModel<String>();
+        memoria = new Memoria(regs);
+        jTextArea1.setText("	Olá, "+nomeUsuario+"! Bem vindo ao Venture! \n Escolha o seu modo de operação para começarmos...\n\n Step - Executa o programa passo a passo\n Run - Executa todo o programa\n Reset - Reset o programa");
+        ManipulaArquivo arquivo;
+        arquivo = new ManipulaArquivo("src/inputs/arquivo.txt", memoria);//pacote com as possiveis entradas
+        boolean continua; //variavel de continuidade de loops
 
+       /* do {
+            continua = arquivo.leitor();//faz a leitura do arquivo, guardando o valor de retorno da funçao. Quando for false (0), sai do loop
+        } while (continua);*/
+
+        while(arquivo.leitor());//sintaxe alternativa
+
+        memoria.imprimeMemoria();
+        for (int i = 0; i<memoria.getMemoria().size();i++){
+            model.addElement(memoria.getMemoria().get(i));
+        }
+        regs[IR].setRegistrador(memoria.getMemoria().get(memoria.getINICIO_INS_DADOS()));
+        acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
+        im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
+        ir.setText(regs[IR].getRegistrador());
+        opm.setText(regs[OPM].getRegistrador());
+        sp.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[SP].getRegistrador())));
+        pc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[PC].getRegistrador())));
+        
+    }
+    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Fechando jf = new Fechando();
         jf.setVisible(true);
@@ -331,6 +380,39 @@ public class janelaprincipal extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
 
     }//GEN-LAST:event_formWindowClosed
+    public void runButton(){
+        run = true;
+        while(run){
+            
+//            try {
+//                Thread.sleep(2000);
+                System.out.println("loop");
+                int posicao, operacao; // aux = valor auxiliar para operações aritméticas
+                String opcode;
+
+                posicao = regs[PC].getRegistradorInt(); // pega a posição da instrução de PC
+                opcode = memoria.getMemoriaPosicao(posicao);        // pega a instrução da memória
+                //regs[IR].setRegistrador(opcode);                    // guarda no registrador de instrução
+                operacao = FuncoesUteis.binaryStringToInt(opcode);  // converte para int para ficar fácil de operar
+
+                // realiza a operação
+                if(operacao == 12 || operacao == 44){
+                    //executarOperacao();
+                    jTextArea1.setText("Esperando leitura.\nDigite um valor decimal válido\npara não dar pau no programa.\nClique enter para confirmar.");
+                    run = false;
+                }else{
+                    executarOperacao();
+                }
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(janelaprincipal.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+        }
+    }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        opcaoRun = true;
+        runButton(); 
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public JList<String> getLista() {
         return jList1;
@@ -707,10 +789,10 @@ public class janelaprincipal extends javax.swing.JFrame {
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Insira sua identificação de frota estelar para autorizar indiretamente a operação\n ");
+                    //jTextArea1.setText("Insira sua identificação de frota estelar para autorizar indiretamente a operação\n ");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Insira sua identificação de frota estelar para autorizar diretamente a operação\n ");
+                    //jTextArea1.setText("Insira sua identificação de frota estelar para autorizar diretamente a operação\n ");
                 }
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
 //                im.setText(regs[IM].getRegistrador());
@@ -718,6 +800,19 @@ public class janelaprincipal extends javax.swing.JFrame {
                 // executa operação
                 //leitura = textFieldAlgumaCoisa.getText();
                 //
+                new Thread(){
+
+
+                @Override
+                public synchronized void start() {
+                    super.start(); //To change body of generated methods, choose Tools | Templates.
+                     
+                }
+
+                };
+                
+                
+                
                 memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), FuncoesUteis.intToBinaryString(leitura, 16));
 
                 regs[PC].add(2);
@@ -742,6 +837,9 @@ public class janelaprincipal extends javax.swing.JFrame {
                    Thread.currentThread().sleep(250); // pausa um quarto de segundo
                 //jTextArea1.setText("Operação Finalizada.");
                }*/
+                //serve para terminar o laço do botão run
+                run = false;
+                
                break;
                 
             // STORE
