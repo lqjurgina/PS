@@ -504,16 +504,16 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 )
                                 ); 
-                    jTextArea1.setText("Adicionando informações indiretamente no Acumulador");
+                    jTextArea1.setText("As informações foram adicionadas indiretamente no Acumulador.\n\n(ACC <- ACC+OP1)");
                     
                 } else if (opcode.charAt(8) == '1') { // operando imediato
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Adicionando informações imediatamente no Acumulador");
+                    jTextArea1.setText("As informações foram adicionadas imediatamente no Acumulador.\n\n(ACC <- ACC+OP1)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Atualizando informações diretamente no Acumulador");
+                    jTextArea1.setText("Atualizando informações diretamente no Acumulador.\n\n(ACC <- ACC+OP1)");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
@@ -531,13 +531,14 @@ public class janelaprincipal extends javax.swing.JFrame {
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Realizando salto informacional indireto...");
+                    jTextArea1.setText("Salto informacional indireto realizado.\n\n(PC <- opd1)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Realizando salto informacional direto...");
+                    jTextArea1.setText("Salto informacional direto realizado.\n\n(PC <- opd1)");
                 }
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
 //                im.setText(regs[IM].getRegistrador());
+              
                 // executa operação
                 regs[PC].setRegistrador(operando1);
                 break;
@@ -549,10 +550,10 @@ public class janelaprincipal extends javax.swing.JFrame {
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Testando negatividade do ACC para salto informacional indireto...");
+                    jTextArea1.setText("Testando negatividade do ACC para salto informacional indireto...\n\n(PC <- opd1, se ACC < 0)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Testando negatividade do ACC para salto informacional indireto...");
+                    jTextArea1.setText("Testando negatividade do ACC para salto informacional indireto...\n\n(PC <- opd1, se ACC < 0)");
                 }
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
 //                im.setText(regs[IM].getRegistrador());
@@ -560,10 +561,10 @@ public class janelaprincipal extends javax.swing.JFrame {
                 // executa operação
                 if (regs[ACC].getRegistradorInt() < 0){
                     regs[PC].setRegistrador(operando1);
-                    jTextArea1.setText("Salto informacional permitido");
+                    jTextArea1.setText("Salto informacional permitido.\n\n(PC <- opd1, se ACC < 0)");
                 }else{
                     regs[PC].add(2);
-                    jTextArea1.setText("Salto informacional negado");
+                    jTextArea1.setText("Salto informacional negado.\n\n(PC <- opd1, se ACC < 0)");
                 }
                 break;
             
@@ -574,22 +575,22 @@ public class janelaprincipal extends javax.swing.JFrame {
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Testando positividade do ACC para salto informacional indireto...");
+                    jTextArea1.setText("Testando positividade do ACC para salto informacional indireto...\n\n(PC <- opd1, se ACC > 0)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Testando positividade do ACC para salto informacional direto...");
+                    jTextArea1.setText("Testando positividade do ACC para salto informacional direto...\n\n(PC <- opd1, se ACC > 0)");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
 //                im.setText(regs[IM].getRegistrador());
-                
+        
                 // executa operação
                 if (regs[ACC].getRegistradorInt() > 0){
                     regs[PC].setRegistrador(operando1);
-                    jTextArea1.setText("Salto informacional permitido");
+                    jTextArea1.setText("Salto informacional permitido.\n\n(PC <- opd1, se ACC > 0)");
                 }else{
                     regs[PC].add(2);
-                    jTextArea1.setText("Salto informacional negado");
+                    jTextArea1.setText("Salto informacional negado.\n\n(PC <- opd1, se ACC > 0)");
                 }
                 break;
                 
@@ -600,10 +601,10 @@ public class janelaprincipal extends javax.swing.JFrame {
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Testando nulidade do ACC para salto informacional indireto...");
+                    jTextArea1.setText("Testando nulidade do ACC para salto informacional indireto...\n\n(PC <- opd1, se ACC = 0)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Testando nulidade do ACC para salto informacional direto...");
+                    jTextArea1.setText("Testando nulidade do ACC para salto informacional direto...\n\n(PC <- opd1, se ACC = 0)");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
@@ -612,11 +613,11 @@ public class janelaprincipal extends javax.swing.JFrame {
                 // executa operação
                 if (regs[ACC].getRegistradorInt() == 0){
                     regs[PC].setRegistrador(operando1);
-                    jTextArea1.setText("Salto informacional permitido");
+                    jTextArea1.setText("Salto informacional permitido.\n\n(PC <- opd1, se ACC = 0)");
                     
                 }else{
                     regs[PC].add(2);
-                    jTextArea1.setText("Salto informacional negado");
+                    jTextArea1.setText("Salto informacional negado.\n\n(PC <- opd1, se ACC = 0)");
                 }            
                 break;
             
@@ -627,10 +628,10 @@ public class janelaprincipal extends javax.swing.JFrame {
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Salvando progresso e iniciando Sub-programa indireto");
+                    jTextArea1.setText("Salvando progresso e iniciando Sub-programa indireto.\n\n([SP] <- PC; PC <- opd1)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Salvando progresso e iniciando Sub-programa direto");
+                    jTextArea1.setText("Salvando progresso e iniciando Sub-programa direto.\n\n([SP] <- PC; PC <- opd1)");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
@@ -687,7 +688,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                 // executa operação
                 memoria.setMemoriaPosicao(FuncoesUteis.binaryStringToInt(operando1), operando2);
                 regs[PC].add(3);
-                jTextArea1.setText("Copiando dados da Estação Subespacial para Computador Central");
+                jTextArea1.setText("Dados da Estação Subespacial copiados para Computador Central com sucesso.\n\n(opd1 <- opd2)");
                 break;
                 
             // DIVIDE
@@ -700,15 +701,15 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 )
                                 ); 
-                    jTextArea1.setText("Dividindo informações indiretamente no Acumulador");
+                    jTextArea1.setText("Informações divididas indiretamente no Acumulador.\n\n(ACC <- ACC / opd1)");
                 } else if (opcode.charAt(8) == '1') { // operando imediato
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Dividindo informações imediatamente no Acumulador");
+                    jTextArea1.setText("Informações divididas imediatamente no Acumulador.\n\n(ACC <- ACC / opd1)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Dividindo informações diretamente no Acumulador");
+                    jTextArea1.setText("Informações divididas diretamente no Acumulador.\n\n(ACC <- ACC / opd1)");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
@@ -733,15 +734,15 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 )
                                 );
-                    jTextArea1.setText("Carregando informações de modo indireto no Acumulador...");
+                    jTextArea1.setText("Informações carregadas de modo indireto no Acumulador.\n\n(ACC <- opd1)");
                 } else if (opcode.charAt(8) == '1') { // operando imediato
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Adicionando múltiplas informações imediatamente no Acumulador");
+                    jTextArea1.setText("Informações carregadasde modo imediato no Acumulador.\n\n(ACC <- opd1)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Carregando informações de modo direto no Acumulador...");
+                    jTextArea1.setText("Informações carregadas de modo direto no Acumulador.\n\n(ACC <- opd1)");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
@@ -763,15 +764,15 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 )
                                 ); 
-                    jTextArea1.setText("Adicionando múltiplas informações indiretamente no Acumulador");
+                    jTextArea1.setText("Múltiplas informações adicionadas indiretamente no Acumulador.\n\n(ACC <- ACC * opd1)");
                 } else if (opcode.charAt(8) == '1') { // operando imediato
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Adicionando múltiplas informações imediatamente no Acumulador");
+                    jTextArea1.setText("Múltiplas informações adicionadas imediatamente no Acumulador.\n\n(ACC <- ACC * opd1)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Adicionando múltiplas informações diretamente no Acumulador");
+                    jTextArea1.setText("Múltiplas informações adicionadas diretamente no Acumulador.\n\n(ACC <- ACC * opd1)");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
@@ -814,7 +815,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                     regs[SP].add(-1);
                     regs[PC].setRegistrador(memoria.getMemoriaPosicao(regs[SP].getRegistradorInt()));
                     
-                    jTextArea1.setText("Sub-programa finalizado... Retomando anterior.");
+                    jTextArea1.setText("Sub-programa finalizado... Retomando anterior.\n\n(PC <- [SP])\n(retorno de sub-rotina)");
                 } else {
                     // stack underflow
                 }
@@ -824,11 +825,8 @@ public class janelaprincipal extends javax.swing.JFrame {
                 
             // STOP (TODO)
             case 11: // stop
-              /* while(!botaoreset){
-                   Thread.currentThread().sleep(250); // pausa um quarto de segundo
-                //jTextArea1.setText("Operação Finalizada.");
-               }*/
                 //serve para terminar o laço do botão run
+                jTextArea1.setText("Operação Finalizada.");
                 run = false;
                 
                break;
@@ -841,10 +839,10 @@ public class janelaprincipal extends javax.swing.JFrame {
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Salvando indiretamente as operações realizadas...");
+                    jTextArea1.setText("As Operações realizadas foram salvas indiretamente.\n\n(opd1 <- ACC)");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Salvando diretamente as operações realizadas...");
+                    jTextArea1.setText("As Operações realizadas foram salvas diretamente.\n\n(opd1 <- ACC)");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
@@ -865,15 +863,15 @@ public class janelaprincipal extends javax.swing.JFrame {
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 )
                                 ); 
-                    jTextArea1.setText("Retirando informações de modo indireto no Acumulador");
+                    jTextArea1.setText("Informações retiradas de modo indireto no Acumulador.\n\n(ACC <- ACC - opd1 )");
                 } else if (opcode.charAt(8) == '1') { // operando imediato
                     operando1 = memoria.getMemoriaPosicao(posicao+1);
-                    jTextArea1.setText("Retirando informações de modo imediato no Acumulador");
+                    jTextArea1.setText("Informações retiradas de modo imediato no Acumulador.\n\n(ACC <- ACC - opd1 )");
                 } else { // operando direto
                     operando1 = memoria.getMemoriaPosicao(
                                 memoria.getMemoriaPosicaoInt(posicao+1)
                                 );
-                    jTextArea1.setText("Retirando informações de modo direto no Acumulador");
+                    jTextArea1.setText("Informações retiradas de modo direto no Acumulador.\n\n(ACC <- ACC - opd1 )");
                 }
                 
 //                regs[IM].setRegistrador(Integer.toString(posicao+1));
