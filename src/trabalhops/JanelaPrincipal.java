@@ -49,6 +49,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         opcaoRun = false;
         campo1.setOpaque(false);
         campo1.setBackground(new java.awt.Color(255, 255, 255, 0));
+        jTextArea1.setOpaque(false);
+        jTextArea1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jButton1.setOpaque(false);
         jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jList1.setOpaque(false);
@@ -140,17 +142,17 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         pc.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         pc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         pc.setText("0");
-        jPanel1.add(pc, new org.netbeans.lib.awtextra.AbsoluteConstraints(227, 180, 192, 32));
+        jPanel1.add(pc, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 180, 192, 32));
 
         sp.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         sp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sp.setText("0");
-        jPanel1.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 192, 32));
+        jPanel1.add(sp, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 192, 32));
 
         acc.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         acc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acc.setText("ADD");
-        jPanel1.add(acc, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 300, 192, 32));
+        jPanel1.add(acc, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 300, 192, 32));
 
         campo1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         campo1.setBorder(null);
@@ -159,20 +161,18 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 campo1ActionPerformed(evt);
             }
         });
-        jPanel1.add(campo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 560, 220, 30));
+        jPanel1.add(campo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 560, 208, 30));
 
         jButton1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Step");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 400, 90, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 90, 30));
 
         jButton2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Reset");
         jButton2.setToolTipText("");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -180,22 +180,21 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 400, 90, 30));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(688, 400, 90, 30));
 
         jLabel5.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("0");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(832, 464, 288, 112));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(864, 464, 288, 112));
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 9)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.setText("\t      Olá! Bem vindo ao Venture! \nEscolha o seu modo de operação para começarmos...\n\nStep - Executa o programa passo a passo\nRun - Executa todo o programa\nReset - Reset o programa");
         jScrollPane1.setViewportView(jTextArea1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 520, 330, 110));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 470, 280, 120));
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -208,35 +207,34 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jList1.setToolTipText("");
         jScrollPane3.setViewportView(jList1);
 
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 48, 150, 600));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 150, 540));
 
         opm.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         opm.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         opm.setText("0");
-        jPanel1.add(opm, new org.netbeans.lib.awtextra.AbsoluteConstraints(461, 180, 208, 32));
+        jPanel1.add(opm, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 180, 208, 32));
 
         ir.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         ir.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ir.setText("0");
-        jPanel1.add(ir, new org.netbeans.lib.awtextra.AbsoluteConstraints(464, 240, 192, 32));
+        jPanel1.add(ir, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, 192, 32));
 
         im.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         im.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         im.setText("0");
-        jPanel1.add(im, new org.netbeans.lib.awtextra.AbsoluteConstraints(464, 300, 192, 32));
+        jPanel1.add(im, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 300, 192, 32));
 
         jButton3.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Run");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 80, 30));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(592, 400, 80, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/background ps.png"))); // NOI18N
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1152, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, -1));
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1152, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -247,9 +245,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -327,7 +323,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
     public void resetButton() throws FileNotFoundException{
         opcaoRun = false;
-        jLabel5.setText("0"); 
+        jLabel5.setText(""); 
         campo1.setText("");
         model = new DefaultListModel<String>();
         memoria = new Memoria(new Registrador[6]);
@@ -613,6 +609,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                     regs[SP].add(1);
                 } else {
                     // stack overflow
+                    jTextArea1.setText("Ocoreu um stack overflow na pilha.\n");
                 }
                 break;
                 
