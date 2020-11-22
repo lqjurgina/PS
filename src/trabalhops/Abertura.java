@@ -101,9 +101,9 @@ public class Abertura extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Preencha seu nome","Atenção!",JOptionPane.ERROR_MESSAGE);
         }
         else{
-            janelaprincipal jp = null;
+            JanelaPrincipal jp = null;
             try {
-                jp = new janelaprincipal(jTextField1.getText());
+                jp = new JanelaPrincipal(jTextField1.getText());
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Abertura.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -122,9 +122,9 @@ public class Abertura extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Preencha seu nome","Atenção!",JOptionPane.ERROR_MESSAGE);
             }
             else{
-                janelaprincipal jp = null;
+                JanelaPrincipal jp = null;
                 try {
-                    jp = new janelaprincipal(jTextField1.getText());
+                    jp = new JanelaPrincipal(jTextField1.getText());
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(Abertura.class.getName()).log(Level.SEVERE, null, ex);
                 }

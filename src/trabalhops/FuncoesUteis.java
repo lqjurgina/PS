@@ -48,6 +48,12 @@ public class FuncoesUteis {
             return saida.substring(0-tamanho);
     }
     
+    public static String registradorDisplay (Registrador reg){
+        Integer valor = FuncoesUteis.binaryStringToInt(reg.getRegistrador());
+        return valor.toString();
+    
+    }
+    
     // Inverte os bits de uma string em binário
     private static String inverteBits(String binario) {
         char[] inverso = new char[binario.length()];

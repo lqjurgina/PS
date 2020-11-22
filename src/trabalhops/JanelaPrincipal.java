@@ -18,18 +18,31 @@ import javax.swing.JList;
  *
  * @author cassi
  */
-public class janelaprincipal extends javax.swing.JFrame {
-    private Memoria memoria;
+public class JanelaPrincipal extends javax.swing.JFrame {
+   //Variaveis
+    private Memoria memoria; //Memoria
     private DefaultListModel<String> model;
-    private final int PC,SP,ACC,OPM,IR,IM;
-    private Registrador[] regs;
-    private int leitura;
-    private Boolean run,opcaoRun;
+    private final int PC,SP,ACC,OPM,IR,IM; //Variaveis para guardar a referencia aos registradores
+    private Registrador[] regs; //Vetor de registradores
+    private int leitura; //Leitura do usuario
+    private Boolean run,opcaoRun; //Variaveis auxiliares de continuidade
     private String nomeUsuario;
+    private final String ARQUIVO_ENTRADA = "src/inputs/arquivo.txt";
+    
+    private void imprimeRegistradoresNaTela() { //Funçao que atualiza os valores dos registradores para imprimir no display
+        //Imprime os valores dos registradores na tela   
+        regs[IR].setRegistrador(memoria.getMemoria().get(memoria.getINICIO_INS_DADOS()));
+        acc.setText(FuncoesUteis.registradorDisplay(regs[ACC]));
+        im.setText(FuncoesUteis.registradorDisplay(regs[IM]));
+        ir.setText(regs[IR].getRegistrador());
+        opm.setText(regs[OPM].getRegistrador());
+        sp.setText(FuncoesUteis.registradorDisplay(regs[SP]));
+        pc.setText(FuncoesUteis.registradorDisplay(regs[PC]));
+    }
     /**
      * Creates new form janelaprincipal
      */
-    public janelaprincipal(String nome) throws FileNotFoundException {
+    public JanelaPrincipal(String nome) throws FileNotFoundException {
         initComponents();
         nomeUsuario = nome;
         //run = true;
@@ -51,7 +64,7 @@ public class janelaprincipal extends javax.swing.JFrame {
         regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         model = new DefaultListModel<String>();
         memoria = new Memoria(regs);
-        //criado para referenciar os registradores no vetor regs 
+        //referencias os registradores no vetor regs 
         IM = 5; 
         IR = 4;  
         OPM = 3; 
@@ -60,16 +73,16 @@ public class janelaprincipal extends javax.swing.JFrame {
         PC = 0;  
         // ex: valorRegistradorAcc = regs[ACC].getRegistrador()
         
-        arquivo = new ManipulaArquivo("src/inputs/arquivo.txt", memoria);//pacote com as possiveis entradas
-        boolean continua; //variavel de continuidade de loops
-
+        arquivo = new ManipulaArquivo(ARQUIVO_ENTRADA, memoria);//pacote com as possiveis entradas
+        
        /* do {
-            continua = arquivo.leitor();//faz a leitura do arquivo, guardando o valor de retorno da funçao. Quando for false (0), sai do loop
-        } while (continua);*/
+            run = arquivo.leitor();//faz a leitura do arquivo, guardando o valor de retorno da funçao. Quando for false (0), sai do loop
+        } while (run);*/
 
         while(arquivo.leitor());//sintaxe alternativa
 
-        memoria.imprimeMemoria();
+        //memoria.imprimeMemoria();//Debug
+        
         for (int i = 0; i<memoria.getMemoria().size();i++){
             model.addElement(memoria.getMemoria().get(i));
         }
@@ -77,21 +90,9 @@ public class janelaprincipal extends javax.swing.JFrame {
         //Seta o vetor memória da interface 
         jList1.setModel(model);
         
-        //seta os valores dos registradores da interface
-//        acc.setText(regs[ACC].getRegistrador());
-//        im.setText(regs[IM].getRegistrador());
-//        ir.setText(regs[IR].getRegistrador());
-//        opm.setText(regs[OPM].getRegistrador());
-//        sp.setText(regs[SP].getRegistrador());
-//        pc.setText(regs[PC].getRegistrador());
-
-        regs[IR].setRegistrador(memoria.getMemoria().get(memoria.getINICIO_INS_DADOS()));
-        acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
-        im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
-        ir.setText(regs[IR].getRegistrador());
-        opm.setText(regs[OPM].getRegistrador());
-        sp.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[SP].getRegistrador())));
-        pc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[PC].getRegistrador())));
+        
+        this.imprimeRegistradoresNaTela();
+             
         
     }
 
@@ -256,8 +257,10 @@ public class janelaprincipal extends javax.swing.JFrame {
     
     //A função abaixo espera um entrada do input, ela é executada com a tecla enter
     private void campo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo1ActionPerformed
-        // TODO add your handling code here:
-        int posicao, operacao, aux; // aux = valor auxiliar para operações aritméticas
+        
+        int posicao; //posiço de memoria
+        int operacao; //opcode
+        int aux; // aux = valor auxiliar para operações aritméticas
         String opcode;
         
         posicao = regs[PC].getRegistradorInt(); // pega a posição da instrução de PC
@@ -276,12 +279,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                 runButton();
             }
             
-            acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
-            im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
-            ir.setText(regs[IR].getRegistrador());
-            opm.setText(regs[OPM].getRegistrador());
-            sp.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[SP].getRegistrador())));//
-            pc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[PC].getRegistrador())));
+            this.imprimeRegistradoresNaTela();
 
             DefaultListModel<String> model = new DefaultListModel<String>();
             for (int i = 0; i<memoria.getMemoria().size();i++){
@@ -310,20 +308,7 @@ public class janelaprincipal extends javax.swing.JFrame {
             executarOperacao();
         }
 
-        acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
-        im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
-        ir.setText(regs[IR].getRegistrador());//registrador de instruções
-        opm.setText(regs[OPM].getRegistrador());
-        sp.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[SP].getRegistrador())));//
-        pc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[PC].getRegistrador())));
-        
-        
-//        acc.setText(regs[ACC].getRegistrador());
-//        im.setText(regs[IM].getRegistrador());
-//        ir.setText(regs[IR].getRegistrador());
-//        opm.setText(regs[OPM].getRegistrador());
-//        sp.setText(regs[SP].getRegistrador());
-//        pc.setText(regs[PC].getRegistrador());
+        this.imprimeRegistradoresNaTela();
        
         DefaultListModel<String> model = new DefaultListModel<String>();
         for (int i = 0; i<memoria.getMemoria().size();i++){
@@ -337,38 +322,25 @@ public class janelaprincipal extends javax.swing.JFrame {
             // TODO add your handling code here:
             resetButton();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(janelaprincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     public void resetButton() throws FileNotFoundException{
         opcaoRun = false;
         jLabel5.setText("0"); 
         campo1.setText("");
-       regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         model = new DefaultListModel<String>();
-        memoria = new Memoria(regs);
+        memoria = new Memoria(new Registrador[6]);
         jTextArea1.setText("	Olá, "+nomeUsuario+"! Bem vindo ao Venture! \n Escolha o seu modo de operação para começarmos...\n\n Step - Executa o programa passo a passo\n Run - Executa todo o programa\n Reset - Reset o programa");
-        ManipulaArquivo arquivo;
-        arquivo = new ManipulaArquivo("src/inputs/arquivo.txt", memoria);//pacote com as possiveis entradas
-        boolean continua; //variavel de continuidade de loops
-
-       /* do {
-            continua = arquivo.leitor();//faz a leitura do arquivo, guardando o valor de retorno da funçao. Quando for false (0), sai do loop
-        } while (continua);*/
-
-        while(arquivo.leitor());//sintaxe alternativa
+        ManipulaArquivo arquivo = new ManipulaArquivo(ARQUIVO_ENTRADA, memoria);//pacote com as possiveis entradas
+        
+        while(arquivo.leitor());
 
         memoria.imprimeMemoria();
         for (int i = 0; i<memoria.getMemoria().size();i++){
             model.addElement(memoria.getMemoria().get(i));
         }
-        regs[IR].setRegistrador(memoria.getMemoria().get(memoria.getINICIO_INS_DADOS()));
-        acc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[ACC].getRegistrador())));
-        im.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[IM].getRegistrador())));
-        ir.setText(regs[IR].getRegistrador());
-        opm.setText(regs[OPM].getRegistrador());
-        sp.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[SP].getRegistrador())));
-        pc.setText(Integer.toString(FuncoesUteis.binaryStringToInt(regs[PC].getRegistrador())));
+        this.imprimeRegistradoresNaTela();
         
     }
     
@@ -386,7 +358,7 @@ public class janelaprincipal extends javax.swing.JFrame {
             
 //            try {
 //                Thread.sleep(2000);
-                System.out.println("loop");
+                //System.out.println("loop");
                 int posicao, operacao; // aux = valor auxiliar para operações aritméticas
                 String opcode;
 
@@ -435,25 +407,20 @@ public class janelaprincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(janelaprincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(janelaprincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(janelaprincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(janelaprincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
+
         /* Create and display the form */
-
-        
-        
-  
-
-  
-       
-        
+     
 
     }
 
@@ -817,7 +784,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                     
                     jTextArea1.setText("Sub-programa finalizado...\nRetomando anterior.\n\n(PC <- [SP])\n(retorno de sub-rotina)");
                 } else {
-                    // stack underflow
+                    jTextArea1.setText("Numero muito pequeno para \n ser representado.");
                 }
                 
                 //Verificar IM aqui
@@ -919,4 +886,6 @@ public class janelaprincipal extends javax.swing.JFrame {
                 break;
         }
     }
+    
+   
 }

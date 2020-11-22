@@ -36,6 +36,7 @@ public class Memoria {
             regs[c] = new Registrador(this,i);//cria um registrador e o atrela a essa memoria
         }
 
+        //Adiciona os valores dos registradores na memoria
         memoria.add("0000000000001100");//PC
         memoria.add("0000000000000010"); //SP
         memoria.add("0000000000000000"); //ACC
@@ -43,34 +44,19 @@ public class Memoria {
         memoria.add("000"); //IR
         memoria.add("0000000000001100");//IM
 
-        //Seta os valores dos registradores
-//        regs[0].add("0000000000001100");//PC
-//        regs[1].add("0000000000000010");//SP
-//        regs[2].add("0000000000000000");//ACC
-//        regs[3].add("xx");//OPM
-//        regs[4].add("000");//IR
-//        regs[5].add("0000000000001100");//IM
-//        
 
-        /*for (int i = 0; i < TAMANHO_MEMORIA; i++) {
-            System.out.println(this.memoria[i]);
-        }
-        for (String string : memoria) {
-            System.out.println(string);
-        }*/
     }
 
     //retorna a string memória. Tomar cuida ao manipular a memória com esse método.
-    public ArrayList<String> getMemoria() {
+    public ArrayList<String> getMemoria() { //ve a memoria inteira
         return memoria;
     }
 
     //imprime memória aqui
-    public void imprimeMemoria() {
+    public void imprimeMemoria() { //imprime a memoria inteira no terminal
         for (String string : memoria) {
             System.out.println(string);
         }
-        //Falta fazer função que imprime na memória da interface.  
     }
 
     public void imprimeMemoriaParcial(int inicio, int fim) {//funcao para observar regioes especificas da memoria

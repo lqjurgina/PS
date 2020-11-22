@@ -22,4 +22,8 @@ Grupo: Dauan Ghisleni Zolinger (líder), Laura Quevedo (vice-líder), Cássio Fe
 
 ## FUNCIONAMENTO
    
-   *inserir instruções de funcionamento aqui*
+   O código roda um arquivo .txt com um programa em código binário que é dado como entrada. O controle da execução do código se dá através da interface gráfica onde o usuário pode optar pela opção RUN (que executa o código sem pausas), ou pela opção STEP (que faz a execução passo a passo). Após o fim da execução do código, o reset pode ser acionado e uma das opções previamente citadas pode ser novamente utilizada para executar o código novamente. Na interface também podem ser acompanhados todos os valores dos registradores durante a execução do programa.
+   
+   O binário implementado nesta primeira versão do experimento é a resolução de um fatorial. Para rodar a aplicação...
+
+
