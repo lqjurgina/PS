@@ -40,7 +40,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         pc.setText(FuncoesUteis.registradorDisplay(regs[PC]));
     }
     /**
-     * Creates new form janelaprincipal
+     * Creates new form JanelaPrincipal
      */
     public JanelaPrincipal(String nome) throws FileNotFoundException {
         initComponents();
@@ -325,8 +325,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         opcaoRun = false;
         jLabel5.setText(""); 
         campo1.setText("");
+        regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         model = new DefaultListModel<String>();
-        memoria = new Memoria(new Registrador[6]);
+        memoria = new Memoria(regs);
         jTextArea1.setText("	Olá, "+nomeUsuario+"! Bem vindo ao Venture! \n Escolha o seu modo de operação para começarmos...\n\n Step - Executa o programa passo a passo\n Run - Executa todo o programa\n Reset - Reset o programa");
         ManipulaArquivo arquivo = new ManipulaArquivo(ARQUIVO_ENTRADA, memoria);//pacote com as possiveis entradas
         
@@ -411,6 +412,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
+        //</editor-fold>
+
         //</editor-fold>
 
         //</editor-fold>
