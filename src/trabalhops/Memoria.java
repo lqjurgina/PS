@@ -24,8 +24,8 @@ public class Memoria {
         this.memoria = new ArrayList();//cria a memoria
         this.ponteiroPilha = 3;
 
-        memoria.add("0");//primeira posição do vetor memória começa com o valor 0
-        memoria.add("10");//segunda posição do vetor memória começa com o valor 10(tamanho da pilha)
+        memoria.add("0000000000000000");//primeira posição do vetor memória começa com o valor 0
+        memoria.add("0000000000001010");//segunda posição do vetor memória começa com o valor 10(tamanho da pilha)
         for (int i = 2; i < TAMANHO_PILHA + 2; i++) {//aloca a Pilha
             memoria.add("Pilha");
         }
@@ -40,8 +40,8 @@ public class Memoria {
         memoria.add("0000000000000010"); //SP
         memoria.add("0000000000000000"); //ACC
         memoria.add("xx"); //OPM
-        memoria.add("000"); //IR
-        memoria.add("0000000000001100");//IM
+        memoria.add("0000000000000000"); //IR
+        memoria.add("0000000000000000");//IM
 
         //Seta os valores dos registradores
 //        regs[0].add("0000000000001100");//PC

@@ -160,7 +160,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                 campo1ActionPerformed(evt);
             }
         });
-        jPanel1.add(campo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 560, 220, 30));
+        jPanel1.add(campo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 560, 208, 30));
 
         jButton1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jButton1.setText("Step");
@@ -179,12 +179,12 @@ public class janelaprincipal extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 400, 90, 30));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(688, 400, 90, 30));
 
         jLabel5.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 470, 288, 112));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(864, 464, 288, 112));
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -230,7 +230,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 400, 80, 30));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(592, 400, 80, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalhops/background ps.png"))); // NOI18N
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1190, -1));
@@ -642,6 +642,7 @@ public class janelaprincipal extends javax.swing.JFrame {
                     regs[SP].add(1);
                 } else {
                     // stack overflow
+                    jTextArea1.setText("Ocoreu um stack overflow na pilha.\n");
                 }
                 break;
                 
