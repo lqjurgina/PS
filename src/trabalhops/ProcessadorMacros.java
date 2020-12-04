@@ -49,14 +49,14 @@ public class ProcessadorMacros {
                 qtMacros++; //aumenta a quantidade de macros
                 linha = buffRead.readLine();//Depois de ler a macro, incrementa a linha
             }
-            replaceMacro = linhaChamadaDeMacro(linha, macros); // a variável replaceMacro recebe a confirmação de se a linha é chamada de macro
-            if (replaceMacro != 0) {//Verifica se a linha é igual a alguma chamada de macro
-                buffWrite.append(macros[replaceMacro]);//Se for, adiciona a expansão da macro no buffer
+            replaceMacro = linhaChamadaDeMacro(linha, macros) ; // a variável replaceMacro recebe a confirmação de se a linha é chamada de macro
+            if (replaceMacro != -1) {//Verifica se a linha é igual a alguma chamada de macro
+                buffWrite.append(macros[replaceMacro-1]);//Se for, adiciona a expansão da macro no buffer. Aqui é usado replaceMacro-1 porque linhaChamadaDeMacro trata a posição 0 do vetor como 1
             } else {
                 buffWrite.append(linha + "\n");//Se não, adiciona a linha lida
             }
         } while (!linha.equals("STOP"));//Até o fim do programa executável
-        buffWrite.append(linha);//Adiciona stop no buffer de escrita
+        
 
         do {//loop para copar o que tem na memória do arquivo para o buffer de saída
             linha = buffRead.readLine();
@@ -81,7 +81,7 @@ public class ProcessadorMacros {
 
     public int linhaChamadaDeMacro(String linha, String[] macros) {//retorna 0 se a chamada não é igual a uma macro e retorna o numero da macro se for igual a uma macro
         if (macros[0] == null || linha.equals("*") || linha.equals("STOP")) {//O primeiro teste é se já tenho uma macro na lista
-            return 0;//se não tiver, já retorna 0
+            return -1;//se não tiver, já retorna 0
         }
 
         String inicioLinha = linha.substring(0, linha.indexOf(' ')); //Copia até o primeiro espaço
@@ -90,7 +90,7 @@ public class ProcessadorMacros {
         int contador = 0;
         do {//O loop vai fazer a comparação entre as strings inicioLinha e inicioMacro, até encontrar uma macro, ou o a string inicio macro ser nula, ou seja, não ter nada dentro dela
             if (macros[contador] == null) {
-                contador = 0;
+                contador = -1;
                 break;
             }
             inicioMacro = macros[contador].substring(1, macros[contador].indexOf(" "));//Copia até o primeiro espaço. O íncide precisa ser 1 porque os macros tem como primeiro caractere um /n
@@ -101,8 +101,9 @@ public class ProcessadorMacros {
                 inicioMacro = macros[contador].substring(inicio, fim);//atualiza o valor de inicioMacro para o próximo valor depois do label
             }
             contador++;//Autualiza o contador
+            System.out.println(inicioLinha + " " + inicioMacro + " " + inicioLinha.equals(inicioMacro) + " " + contador); //debug
         } while (!inicioLinha.equals(inicioMacro));//O loop encerra quando inicioLinha for igual a inicioMacro, ou quando a posição do vetor de macros for nula(if)
 
-        return contador;//retorna o valor de contador (será zero se a linha não corresponder a uma chamada de macro, ou o número da macro no vetor se ela corresponder)
+        return contador;//retorna o valor de contador (será -1 se a linha não corresponder a uma chamada de macro, ou o número da macro no vetor se ela corresponder)
     }
 }
