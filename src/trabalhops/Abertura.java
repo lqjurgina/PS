@@ -101,13 +101,9 @@ public class Abertura extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Preencha seu nome","Atenção!",JOptionPane.ERROR_MESSAGE);
         }
         else{
-            JanelaPrincipal jp = null;
-            try {
-                jp = new JanelaPrincipal(jTextField1.getText());
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Abertura.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            jp.setVisible(true);
+            CarregarArquivo jpm = null;
+            jpm = new CarregarArquivo(jTextField1.getText());
+            jpm.setVisible(true);
             dispose();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -118,19 +114,15 @@ public class Abertura extends javax.swing.JFrame {
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if(jTextField1.getText().compareTo("")==0){
-                JOptionPane.showMessageDialog(null,"Preencha seu nome","Atenção!",JOptionPane.ERROR_MESSAGE);
-            }
-            else{
-                JanelaPrincipal jp = null;
-                try {
-                    jp = new JanelaPrincipal(jTextField1.getText());
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Abertura.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                jp.setVisible(true);
-                dispose();
-            }
+             if(jTextField1.getText().compareTo("")==0){
+            JOptionPane.showMessageDialog(null,"Preencha seu nome","Atenção!",JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            CarregarArquivo jpm = null;
+            jpm = new CarregarArquivo(jTextField1.getText());
+            jpm.setVisible(true);
+            dispose();
+        }
         }
     }//GEN-LAST:event_jTextField1KeyPressed
 
