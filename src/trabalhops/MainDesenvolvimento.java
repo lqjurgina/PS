@@ -20,6 +20,7 @@ public class MainDesenvolvimento {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException {
+      // ProcessadorMacros PM = new ProcessadorMacros("src/inputs/exemplo_trabalho_com_chamada_de_macros_aninhadas.txt");
        ProcessadorMacros PM = new ProcessadorMacros("src/inputs/exemplo_trabalho_sem_macros_aninhadas.txt");
         try {
             PM.leitor();
