@@ -6,6 +6,7 @@
 package trabalhops;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  *
@@ -16,10 +17,10 @@ public class MainMontadorTeste {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
         // TODO code application logic here
         Montador M = new Montador("src/inputs/cod.asm.txt");
-        
+        M.primeiraPassagem();
     }
     
 }
