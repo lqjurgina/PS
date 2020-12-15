@@ -6,16 +6,12 @@ START TESTE
 READ A
 READ B
 READ C
-
-(SOMA D,E,F) Essa linha não deve aparecer
 LOAD D
 ADD E
 ADD F
-(SUBTRAI D,E,F) Essa linha não deve aparecer
 LOAD D
 SUB E
 SUB F
-(MULTIPLICA D,E,F) Essa linha não deve aparecer
 LOAD D
 MULT E
 MULT F
@@ -32,4 +28,3 @@ TEMP2 SPACE
 *
 END
 
-null
