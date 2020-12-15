@@ -76,6 +76,7 @@ public class ProcessadorMacros {
         String linha;//variável auxiliar de leitura
         linha = br.readLine();
         while (!linha.equals("MEND")) {//Enquando não encontrar um fim de função
+            linha = linha.trim();
             retorno += "\n" + linha;//copia o que encontrar   
             linha = br.readLine();    //Lê a próxima linha
         }
