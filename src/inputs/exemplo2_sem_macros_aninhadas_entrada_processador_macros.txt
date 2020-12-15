@@ -1,0 +1,18 @@
+START TESTE
+A EXTR
+M2 EXTR
+   EXTDEF F
+*
+    MACRO	
+    XISQUADRADO &X
+    LOAD &X
+    MULT &X
+    MEND
+*    
+    READ A
+    XISQUADRADO A
+    BR M2
+F   STOP
+A SPACE
+B SPACE
+END

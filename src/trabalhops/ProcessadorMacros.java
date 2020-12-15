@@ -41,19 +41,23 @@ public class ProcessadorMacros {
 
         do { //esse loop vai ler as macros e as instruções. As posições de memória vão ser lidas no outro loop
             linha = buffRead.readLine();
+            //System.out.println(linha);
             if (linha == null) {//Caso aconteça algum imprevisto e a linha seja nula, sai do programa
                 break;
             }
+            linha = linha.trim();
             if (linha.equals("MACRO")) {// se encontra uma macro
                 macros[qtMacros] = pegaMacro(this.buffRead);//salva a macro no vetor
                 qtMacros++; //aumenta a quantidade de macros
                 linha = buffRead.readLine();//Depois de ler a macro, incrementa a linha
+                linha = linha.trim();
+
             }
             replaceMacro = linhaChamadaDeMacro(linha, macros); // a variável replaceMacro recebe a confirmação de se a linha é chamada de macro
             if (replaceMacro > -1) {//Verifica se a linha é igual a alguma chamada de macro
                 String macroCorrigida = trocaParametros(linha, macros[replaceMacro]);//Vai trocar os parâmetros posicionais pelos da chamada e retiriar o cabecalho da chamada
                 verificaMacrosAninhadas(macroCorrigida, macros);//essa função tem que ser implementada
-                buffWrite.append(macroCorrigida);//Se for, adiciona a expansão da macro no buffer. Aqui é usado replaceMacro-1 porque
+                buffWrite.append(macroCorrigida);//Se for, adiciona a expansão da macro no buffer.
             } else if (replaceMacro == -1) {
                 buffWrite.append("\n" + linha);//Se não, adiciona a linha lida
             }
@@ -75,19 +79,19 @@ public class ProcessadorMacros {
         String retorno = "";//retorno da função
         String linha;//variável auxiliar de leitura
         linha = br.readLine();
-        while (!linha.equals("MEND")) {//Enquando não encontrar um fim de função
-            linha = linha.trim();
-            retorno += "\n" + linha;//copia o que encontrar   
+        linha = linha.trim();
+        while (!linha.equals("MEND")) {//Enquando não encontrar um fim de função            retorno += "\n" + linha;//copia o que encontrar   
+            retorno += linha + "\n";
             linha = br.readLine();    //Lê a próxima linha
+            linha = linha.trim();
         }
-        return retorno;
+        return retorno.substring(0,retorno.lastIndexOf("\n"));
     }
 
     public int linhaChamadaDeMacro(String linha, String[] macros) {//retorna um valor <0 se a chamada não é igual a uma macro e retorna o numero da macro se for igual a uma macro
-        if (macros[0] == null || linha.startsWith("*") || linha.equals("STOP") || linha.equals("\n")) {//O primeiro teste é se já tenho uma macro na lista
+        if (macros[0] == null || linha.startsWith("*") || linha.contains("STOP") || linha.equals("\n") || linha.contains("END")) {//O primeiro teste é se já tenho uma macro na lista
             return -1;//se não tiver, já retorna -1
         }
-
         //System.out.println(linha);//debug
         String inicioLinha = linha.substring(0, linha.indexOf(' ')); //Copia até o primeiro espaço
         String inicioMacro;
@@ -95,11 +99,10 @@ public class ProcessadorMacros {
         int contador = 0;
         do {//O loop vai fazer a comparação entre as strings inicioLinha e inicioMacro, até encontrar uma macro, ou o a string inicio macro ser nula, ou seja, não ter nada dentro dela
             if (macros[contador] == null) {
-                contador = -1;
-                break;
+                return -1;
             }
-            inicioMacro = macros[contador].substring(1, macros[contador].indexOf(" "));//Copia até o primeiro espaço. O íncide precisa ser 1 porque os macros tem como primeiro caractere um /n
-
+            //System.out.println(macros[contador]);//debug
+            inicioMacro = macros[contador].substring(0, macros[contador].indexOf(" "));//Copia até o primeiro espaço. O íncide precisa ser 1 porque os macros tem como primeiro caractere um /n
             if (inicioMacro.startsWith("&")) {//se a primeira palavra encontrada na macro for um rótulo
                 int inicio = macros[contador].indexOf(" ") + 1;//pula o label e pega depois do primeiro espaço
                 int fim = macros[contador].indexOf(" ", inicio);
