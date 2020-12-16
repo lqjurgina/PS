@@ -19,8 +19,13 @@ public class MainMontadorTeste {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // TODO code application logic here
-        Montador M = new Montador("src/inputs/cod.asm.txt");
-        M.primeiraPassagem();
+        Montador M = new Montador("src/inputs/cod1.asm.txt","src/inputs/cod2.asm.txt");
+        
+        M.primeiraPassagemArq1();
+        M.primeiraPassagemArq2();
+        
+        M.segundaPassagem();
+        
     }
     
 }
