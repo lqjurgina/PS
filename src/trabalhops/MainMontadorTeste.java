@@ -24,8 +24,8 @@ public class MainMontadorTeste {
         M.primeiraPassagemArq1();
         M.primeiraPassagemArq2();
         
-        M.segundaPassagem();
-        
+        M.segundaPassagemArq1();
+        M.segundaPassagemArq2();
     }
     
 }
