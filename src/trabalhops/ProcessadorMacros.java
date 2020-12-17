@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.HashMap;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ProcessadorMacros {
 
     BufferedReader buffRead; //reader do arquivo
     BufferedWriter buffWrite; //writer da file
-    final String OUTPUT_FILE = "output.txt";
+    final String OUTPUT_FILE = "output.txt"; //nome do arquivo de saida
 
     public ProcessadorMacros(String path) throws FileNotFoundException {
         try {
@@ -34,100 +35,150 @@ public class ProcessadorMacros {
     }
 
     public void leitor() throws IOException { //Funcao lê o arquivo de entrada
-        String linha = "";
-        String macros[] = new String[20]; //Vetor com um número de posições arbitrárias para guardar todas as macros
-        int qtMacros = 0; // quantidade de macros armazenadas no vetor
-        int replaceMacro; //vai avaliar por qual macro do vetor a macro em questão tem que ser expandida
+        String linha;
+        HashMap<String,String> macros = new HashMap<>(); //hashmap para guardar todas as macros
+        String replaceMacro; //Auxiliar, caso haja uma chamada de macro
 
-        do { //esse loop vai ler as macros e as instruções. As posições de memória vão ser lidas no outro loop
-            linha = buffRead.readLine();
-            //System.out.println(linha);
-            if (linha == null) {//Caso aconteça algum imprevisto e a linha seja nula, sai do programa
-                break;
-            }
+        while ((linha = buffRead.readLine()) != null) { // le o arquivo inteiro
             linha = linha.trim();
-            if (linha.equals("MACRO")) {// se encontra uma macro
-                macros[qtMacros] = pegaMacro(this.buffRead);//salva a macro no vetor
-                qtMacros++; //aumenta a quantidade de macros
-                linha = buffRead.readLine();//Depois de ler a macro, incrementa a linha
-                linha = linha.trim();
-
+            if (linha.contains("MACRO")) {// se encontra uma definiçao de macro
+                pegaMacro(macros);//abre o modo de definição, salva a macro no hashmap
             }
-            replaceMacro = linhaChamadaDeMacro(linha, macros); // a variável replaceMacro recebe a confirmação de se a linha é chamada de macro
-            if (replaceMacro > -1) {//Verifica se a linha é igual a alguma chamada de macro
-                String macroCorrigida = trocaParametros(linha, macros[replaceMacro]);//Vai trocar os parâmetros posicionais pelos da chamada e retiriar o cabecalho da chamada
-                verificaMacrosAninhadas(macroCorrigida, macros);//essa função tem que ser implementada
-                buffWrite.append(macroCorrigida);//Se for, adiciona a expansão da macro no buffer.
-            } else if (replaceMacro == -1) {
-                buffWrite.append("\n" + linha);//Se não, adiciona a linha lida
+            else { 
+                replaceMacro = linhaChamadaDeMacro(linha, macros); //se a linha é chamada de macro a variável replaceMacro recebe a definicao da macro que foi chamada
+                if (replaceMacro != null) {//Verifica se a linha é igual a alguma chamada de macro
+                    String macroCorrigida = trocaParametros(linha, replaceMacro, macros);//Se é, vai trocar os parâmetros posicionais pelos da chamada e retirar o cabecalho da chamada
+                    buffWrite.append(macroCorrigida);//Então adiciona a expansão da macro no buffer.
+                } else {
+                    buffWrite.append(linha + "\n");//Se não, adiciona a linha lida
+                }
             }
-        } while (!linha.equals("STOP"));//Até o fim do programa executável
-
-        buffWrite.append("\n");
-        linha = buffRead.readLine(); // atualiza o valor de linha pra entrada do loop não ser com o STOP duplicado
-        while (linha != null) {//loop para copar o que tem na memória do arquivo para o buffer de saída
-            buffWrite.append(linha + "\n");
-            linha = buffRead.readLine();
         }
-
+        //for (String nome : macros.keySet()) System.out.println(nome); //debug - imprime o nome das macros definidas
         buffWrite.flush();//Coloca as informações do buffer no arquivo
         buffWrite.close();//Fecha o buffer de escrita
         buffRead.close();//Fecha o buffer de leitura
     }
-
-    public String pegaMacro(BufferedReader br) throws IOException {//Função que copia macros para a memória
+    
+    // "modo de definição"
+    private void pegaMacro(HashMap<String,String> macros) throws IOException {//Função que copia macros para a memória
         String retorno = "";//retorno da função
         String linha;//variável auxiliar de leitura
-        linha = br.readLine();
+        String nome; //guarda o nome da macro
+        String replaceMacro; //auxiliar, caso haja uma chamada de macro dentro da definicao dessa macro
+        int macrosAninhadas = 0; //contador de macros aninhadas
+
+        linha = this.buffRead.readLine();
         linha = linha.trim();
-        while (!linha.equals("MEND")) {//Enquando não encontrar um fim de função            retorno += "\n" + linha;//copia o que encontrar   
-            retorno += linha + "\n";
-            linha = br.readLine();    //Lê a próxima linha
+        String[] parametros = linha.split("[ ,]");
+        if (parametros[0].startsWith("&")) { // primeiro parametro é um label, entao o segundo vai ser o nome
+            nome = parametros[1];
+        }
+        else nome = parametros[0];
+        //System.out.println(nome); //debug
+        while (!(linha.contains("MEND") && macrosAninhadas == 0)) {//Enquanto não encontrar o fim da macro
+            if      (linha.contains("MEND"))   macrosAninhadas -= 1;
+            else if (linha.contains("MACRO"))  macrosAninhadas += 1;
+            // teste de chamada de macro dentro da macro
+            replaceMacro = linhaChamadaDeMacro(linha, macros); //se a linha é chamada de macro a variável replaceMacro recebe a definicao da macro que foi chamada
+            if (replaceMacro != null) {//Verifica se a linha é igual a alguma chamada de macro
+                String macroCorrigida = trocaParametros(linha, replaceMacro, macros);//Se é, vai trocar os parâmetros posicionais pelos da chamada e retirar o cabecalho da chamada
+                retorno += macroCorrigida;//Então adiciona a expansão da macro no buffer.
+            } else {
+                retorno += linha + "\n";//Se não houve chamada, adiciona a linha lida
+            }
+            linha = this.buffRead.readLine();    //Lê a próxima linha
             linha = linha.trim();
         }
-        return retorno.substring(0,retorno.lastIndexOf("\n"));
+        macros.put(nome, retorno);
     }
-
-    public int linhaChamadaDeMacro(String linha, String[] macros) {//retorna um valor <0 se a chamada não é igual a uma macro e retorna o numero da macro se for igual a uma macro
-        if (macros[0] == null || linha.startsWith("*") || linha.contains("STOP") || linha.equals("\n") || linha.contains("END")) {//O primeiro teste é se já tenho uma macro na lista
-            return -1;//se não tiver, já retorna -1
+    
+    // Retorna a macro se for uma chamada de macro, ou null se não for
+    private String linhaChamadaDeMacro(String linha, HashMap<String,String> macros) {
+        if (macros.isEmpty() || linha.startsWith("*") || linha.contains("STOP") || linha.contains("END") || linha.equals("\n")) { //O primeiro teste é se já tenho uma macro na lista
+            return null; //se não tiver, já retorna null
         }
-        //System.out.println(linha);//debug
-        String inicioLinha = linha.substring(0, linha.indexOf(' ')); //Copia até o primeiro espaço
-        String inicioMacro;
+        String nome;
+        String[] parametrosChamada = linha.split("[ ,]");
+        //System.out.println(linha); //debug
+        nome = parametrosChamada[0];
+        if (parametrosChamada.length > 1 && macros.get(nome) == null) // se houver outro parametro e o nome nao funcionar, pode ser que tenha sido uma label
+            nome = parametrosChamada[1]; // entao tenta com o proximo parametro
 
-        int contador = 0;
-        do {//O loop vai fazer a comparação entre as strings inicioLinha e inicioMacro, até encontrar uma macro, ou o a string inicio macro ser nula, ou seja, não ter nada dentro dela
-            if (macros[contador] == null) {
-                return -1;
-            }
-            //System.out.println(macros[contador]);//debug
-            inicioMacro = macros[contador].substring(0, macros[contador].indexOf(" "));//Copia até o primeiro espaço. O íncide precisa ser 1 porque os macros tem como primeiro caractere um /n
-            if (inicioMacro.startsWith("&")) {//se a primeira palavra encontrada na macro for um rótulo
-                int inicio = macros[contador].indexOf(" ") + 1;//pula o label e pega depois do primeiro espaço
-                int fim = macros[contador].indexOf(" ", inicio);
-                inicioMacro = macros[contador].substring(inicio, fim);//atualiza o valor de inicioMacro para o próximo valor depois do label
-            }
-            contador++;//Autualiza o contador
-            // System.out.println(inicioLinha + " " + inicioMacro + " " + inicioLinha.equals(inicioMacro) + " " + contador); //debug
-        } while (!inicioLinha.equals(inicioMacro));//O loop encerra quando inicioLinha for igual a inicioMacro, ou quando a posição do vetor de macros for nula(if)
-
-        return contador - 1;//retorna o valor de contador (será -1 se a linha não corresponder a uma chamada de macro, ou o número da macro no vetor se ela corresponder)
+        return macros.get(nome); //retorna a macro correspondente a "nome", se existir (caso contrário retorna null)
     }
-
-    String trocaParametros(String chamadaDaMacro, String macroInteira) {
-        String parametrosDaMacro = macroInteira.substring(macroInteira.indexOf(" "), macroInteira.indexOf("\n", 1));//Pega na primeira linha da definição da macro os parâmetros(compreendidos entre o primeiro espaço e o \n
-        String parametrosDaChamada = chamadaDaMacro.substring(chamadaDaMacro.indexOf(" "));//Pega os parâmetros da chamada da macro
-        String[] parametrosDaMacroIndividuais = parametrosDaMacro.split(",");//divide a string nas virgulas, criando um vetor com os parametros separados
-        String[] parametrosDaChamadaIndividuais = parametrosDaChamada.split(",");//divide a string nas virgulas, criando um vetor com os parametros separados
+    
+    // "modo de expansão"
+    private String trocaParametros(String chamadaDaMacro, String macroInteira, HashMap<String,String> macros) { 
+        String saida = "";
+        String replaceMacro;
+        String label = "";
+        String primeiraLinha = macroInteira.substring(0, macroInteira.indexOf("\n")); // primeira linha da macro
+        String[] parametrosDaMacroComNome = primeiraLinha.split("[ ,]");  // lista dos parametros da macro + nome
+        String[] parametrosDaChamadaComNome = chamadaDaMacro.split("[ ,]"); // lista dos parametros da chamada + nome
+        if (!(parametrosDaMacroComNome[0].equals(parametrosDaChamadaComNome[0]) || parametrosDaMacroComNome[1].equals(parametrosDaChamadaComNome[1]))
+                && parametrosDaMacroComNome[0].charAt(0) != '&') { // tem uma label nao usada na chamada
+            label = parametrosDaChamadaComNome[0] + " ";
+            parametrosDaChamadaComNome = chamadaDaMacro.trim().substring(chamadaDaMacro.indexOf(" ") + 1).split("[ ,]"); // ignora a label
+        }
         String chamadaDeMacroCorrigida = macroInteira; //Cria uma cópia da definição da macro pra poder fazer as alterações
-        for (int a = 0; a < parametrosDaChamadaIndividuais.length; a++) {//esse loop substitui todas as ocorrências de um parâmetro posicional por um parâmetro real
-            chamadaDeMacroCorrigida = chamadaDeMacroCorrigida.replaceAll(parametrosDaMacroIndividuais[a], parametrosDaChamadaIndividuais[a]);
+        
+        for (int a = 0; a < parametrosDaChamadaComNome.length; a++) {//esse loop substitui todas as ocorrências de um parâmetro posicional por um parâmetro real
+            // funciona sem tirar o nome pois o nome sempre vai estar na mesma posicao, então nao muda nada
+            chamadaDeMacroCorrigida = chamadaDeMacroCorrigida.replaceAll(parametrosDaMacroComNome[a], parametrosDaChamadaComNome[a]);
         }
         //Neste ponto, as variáveis da macro já estão corrigidas.
-        return chamadaDeMacroCorrigida.substring(chamadaDeMacroCorrigida.indexOf("\n", 1));//Pega a substring sem o cabeçalho da função, ou seja a primeira occorência de \n (primeiro enter depois do caractere 1, que também é um \n)
+        //Agora verificamos a existencia de macros aninhadas
+        chamadaDeMacroCorrigida = chamadaDeMacroCorrigida.substring(chamadaDeMacroCorrigida.indexOf("\n", 1)+1);//Pega a substring sem o cabeçalho da função, ou seja a primeira occorência de \n (primeiro enter depois do caractere 1, que também é um \n)
+        chamadaDeMacroCorrigida = label + chamadaDeMacroCorrigida; //aplica a label ao inicio da macro nova, se existir
+        String[] macroNova = chamadaDeMacroCorrigida.split("\n");
+        for (int i = 0; i < macroNova.length; i++) {
+            if (macroNova[i].contains("MACRO")) {// se encontra uma macro
+                i = pegaMacroString(macroNova, i+1, macros);//salva a macro no hashmap
+            }
+            else { 
+                replaceMacro = linhaChamadaDeMacro(macroNova[i], macros); //se a linha é chamada de macro a variável replaceMacro recebe a definicao da macro que foi chamada
+                if (replaceMacro != null) {//Verifica se a linha é igual a alguma chamada de macro
+                    saida += trocaParametros(macroNova[i], replaceMacro, macros);//Vai trocar os parâmetros posicionais pelos da chamada e retirar o cabecalho da chamada
+                } else {
+                    //System.out.println(linha); //debug
+                    saida += macroNova[i] + "\n";
+                }
+            }
+        }
+        return saida;
+    }
+    
+    // faz o mesmo que pegaMacro, porém em uma array de strings
+    private int pegaMacroString(String[] macroString, int indice, HashMap<String,String> macros) {
+        String macro = "";//macro a ser lida
+        String nome; //guarda o nome da macro
+        String replaceMacro;
+        int macrosAninhadas = 0; //contador de macros aninhadas
+       
+        String[] parametros = macroString[indice].split("[ ,]");
+        if (parametros[0].startsWith("&")) { // primeiro parametro é um label, entao o segundo vai ser o nome
+            nome = parametros[1];
+        }
+        else nome = parametros[0];
+        //System.out.println(nome); //debug
+        while (!(macroString[indice].contains("MEND") && macrosAninhadas == 0)) {//Enquanto não encontrar o fim da macro
+            if      (macroString[indice].contains("MEND"))   macrosAninhadas -= 1;
+            else if (macroString[indice].contains("MACRO"))  macrosAninhadas += 1;
+            // teste de macro dentro da macro
+            replaceMacro = linhaChamadaDeMacro(macroString[indice], macros); //se a linha é chamada de macro a variável replaceMacro recebe a definicao da macro que foi chamada
+            if (replaceMacro != null) {//Verifica se a linha é igual a alguma chamada de macro
+                String macroCorrigida = trocaParametros(macroString[indice], replaceMacro, macros);//Vai trocar os parâmetros posicionais pelos da chamada e retirar o cabecalho da chamada
+                //verificaMacrosAninhadas(macroCorrigida, macros);//essa função tem que ser implementada
+                macro += macroCorrigida;//Se for, adiciona a expansão da macro no buffer. Aqui é usado replaceMacro-1 porque
+            } else {
+                //System.out.println(linha); //debug
+                macro += macroString[indice] + "\n";//Se não, adiciona a linha lida
+            }
+            indice++;
+        }
+        macros.put(nome, macro);
+        return indice;
     }
 
-    void verificaMacrosAninhadas(String linhas, String[] macros) {
-    }
 }
