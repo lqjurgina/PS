@@ -57,7 +57,8 @@ public class MainDesenvolvimento {
     public static void ligador() throws FileNotFoundException{
         try {
             Ligador L = new Ligador("src/arquivos/cod1.obj.txt","src/arquivos/cod2.obj.txt");
-            L.imprimeObjs();
+            L.primeiraPassagemLigador();
+            L.segundaPassagemLigador();
         } catch (IOException ex) {
             Logger.getLogger(MainDesenvolvimento.class.getName()).log(Level.SEVERE, null, ex);
         }
