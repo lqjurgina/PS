@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,11 +21,11 @@ public class CarregarArquivo extends javax.swing.JFrame {
     /**
      * Creates new form JanelaProcessadordeMacros
      */
-    
     private String nome;
+
     public CarregarArquivo(String nome) {
         initComponents();
-        this.nome=nome;
+        this.nome = nome;
         jButton1.setOpaque(false);
         jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jButton2.setOpaque(false);
@@ -87,25 +88,36 @@ public class CarregarArquivo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          JanelaCodigo jc = new JanelaCodigo(nome);
-          jc.setVisible(true);
-          dispose();
+        JanelaCodigo jc = new JanelaCodigo(nome);
+        jc.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        JFileChooser file = new JFileChooser();
-         file.setFileSelectionMode(JFileChooser.FILES_ONLY);
-         int i= file.showSaveDialog(null);
-         String caminho;
-          File arquivo = file.getSelectedFile();
-          caminho=arquivo.getPath();
-          JanelaCodigo jc;
-        try {
-            jc = new JanelaCodigo(nome,caminho);
-            jc.setVisible(true);
-            dispose();
-        } catch (IOException ex) {
-            Logger.getLogger(CarregarArquivo.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(null, "Escolha o arquivo 1", "Atenção!", JOptionPane.INFORMATION_MESSAGE);
+        JFileChooser file1 = new JFileChooser();
+        file1.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int i = file1.showSaveDialog(null);
+        if (file1.getSelectedFile() != null) {
+        String caminho1, caminho2;
+        File arquivo1 = file1.getSelectedFile();
+        caminho1 = arquivo1.getPath();
+            JOptionPane.showMessageDialog(null, "Escolha o arquivo 2", "Atenção!", JOptionPane.INFORMATION_MESSAGE);
+            JFileChooser file2 = new JFileChooser();
+            file2.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int j = file2.showSaveDialog(null);
+            if (file2.getSelectedFile() != null) {
+            File arquivo2 = file2.getSelectedFile();
+            caminho2 = arquivo2.getPath();
+                JanelaCodigo jc;
+                try {
+                    jc = new JanelaCodigo(nome, caminho1, caminho2);
+                    jc.setVisible(true);
+                    dispose();
+                } catch (IOException ex) {
+                    Logger.getLogger(CarregarArquivo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

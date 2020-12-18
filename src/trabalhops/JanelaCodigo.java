@@ -24,36 +24,67 @@ public class JanelaCodigo extends javax.swing.JFrame {
      * Creates new form JanelaCodigo
      */
     private String nome;
-    public JanelaCodigo(String nome, String caminho) throws IOException {
-        initComponents();
-        this.nome=nome;
-        jButton1.setOpaque(false);
-        jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
-        jTextPane1.setOpaque(false);
-        jTextPane1.setBackground(new java.awt.Color(255, 255, 255, 0));
-        BufferedReader buffRead = null;
-            buffRead = new BufferedReader(new FileReader(caminho));
-		String linha = "";
-		while (true) {
-			if (linha != null) {
-				System.out.println(linha);
 
-			} else
-				break;
-			linha = buffRead.readLine();
-                        if(linha!=null)
-                        jTextPane1.setText(jTextPane1.getText()+"\n"+linha);
-		}
-		buffRead.close();
-    }
-    
-        public JanelaCodigo(String nome) {
+    public JanelaCodigo(String nome, String caminho1, String caminho2) throws IOException {
         initComponents();
-        this.nome=nome;
+        this.nome = nome;
         jButton1.setOpaque(false);
         jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jTextPane1.setOpaque(false);
         jTextPane1.setBackground(new java.awt.Color(255, 255, 255, 0));
+        jTextPane2.setOpaque(false);
+        jTextPane2.setBackground(new java.awt.Color(255, 255, 255, 0));
+        TextLineNumber tln = new TextLineNumber(jTextPane1);
+        TextLineNumber tln2 = new TextLineNumber(jTextPane2);
+        jScrollPane1.setRowHeaderView(tln);
+        jScrollPane2.setRowHeaderView(tln2);
+        BufferedReader buffRead1 = null;
+        buffRead1 = new BufferedReader(new FileReader(caminho1));
+        String linha = "";
+        while (true) {
+            if (linha != null) {
+                System.out.println(linha);
+
+            } else {
+                break;
+            }
+            linha = buffRead1.readLine();
+            if (linha != null) {
+                jTextPane1.setText(jTextPane1.getText() + "\n" + linha);
+            }
+        }
+        buffRead1.close();
+        BufferedReader buffRead2 = null;
+        buffRead2 = new BufferedReader(new FileReader(caminho2));
+        String linha2 = "";
+        while (true) {
+            if (linha2 != null) {
+                System.out.println(linha2);
+
+            } else {
+                break;
+            }
+            linha2 = buffRead2.readLine();
+            if (linha2 != null) {
+                jTextPane2.setText(jTextPane2.getText() + "\n" + linha2);
+            }
+        }
+        buffRead2.close();
+    }
+
+    public JanelaCodigo(String nome) {
+        initComponents();
+        this.nome = nome;
+        jButton1.setOpaque(false);
+        jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
+        jTextPane1.setOpaque(false);
+        jTextPane1.setBackground(new java.awt.Color(255, 255, 255, 0));
+        jTextPane2.setOpaque(false);
+        jTextPane2.setBackground(new java.awt.Color(255, 255, 255, 0));
+        TextLineNumber tln = new TextLineNumber(jTextPane1);
+        TextLineNumber tln2 = new TextLineNumber(jTextPane2);
+        jScrollPane1.setRowHeaderView(tln);
+        jScrollPane2.setRowHeaderView(tln2);
     }
 
     /**
@@ -66,6 +97,8 @@ public class JanelaCodigo extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane2 = new javax.swing.JTextPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
         jButton1 = new javax.swing.JButton();
@@ -75,18 +108,22 @@ public class JanelaCodigo extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jScrollPane2.setViewportView(jTextPane2);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 170, 320, 410));
+
         jScrollPane1.setViewportView(jTextPane1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, 650, 410));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 320, 410));
 
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 550, 80, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 550, 70, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/tela código.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/(2)Processar macros.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -115,7 +152,7 @@ public class JanelaCodigo extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(JanelaCodigo.class.getName()).log(Level.SEVERE, null, ex);
         }
-		
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -157,6 +194,8 @@ public class JanelaCodigo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane jTextPane2;
     // End of variables declaration//GEN-END:variables
 }
