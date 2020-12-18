@@ -15,7 +15,7 @@ public class JanelaMontador extends javax.swing.JFrame {
      * Creates new form JanelaMontador
      */
     private String nome;
-    public JanelaMontador(String nome) {
+    public JanelaMontador(String nome, String caminho1, String caminho2) {
         initComponents();
         this.nome=nome;
         jButton1.setOpaque(false);
@@ -28,6 +28,24 @@ public class JanelaMontador extends javax.swing.JFrame {
         jTextPane3.setBackground(new java.awt.Color(255, 255, 255, 0));
         jTextPane4.setOpaque(false);
         jTextPane4.setBackground(new java.awt.Color(255, 255, 255, 0));
+        
+        
+        
+        /*//Imprime na interface
+        BufferedReader buffRead1 = new BufferedReader(new FileReader(saida1));
+        String linha = buffRead1.readLine();
+        while (linha != null) {
+            jTextPane1.setText(jTextPane1.getText() + "\n" + linha);
+            linha = buffRead1.readLine();
+        }
+        buffRead1.close();
+        BufferedReader buffRead2 = new BufferedReader(new FileReader(saida2));
+        String linha2 = buffRead2.readLine();
+        while (linha2 != null) {
+            jTextPane2.setText(jTextPane2.getText() + "\n" + linha2);
+            linha2 = buffRead2.readLine();
+        }
+        buffRead2.close();*/
     }
 
     /**

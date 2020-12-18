@@ -23,12 +23,11 @@ public class ProcessadorMacros {
 
     BufferedReader buffRead; //reader do arquivo
     BufferedWriter buffWrite; //writer da file
-    final String OUTPUT_FILE = "output.txt"; //nome do arquivo de saida
 
-    public ProcessadorMacros(String path) throws FileNotFoundException {
+    public ProcessadorMacros(String path, String saida) throws FileNotFoundException {
         try {
             this.buffRead = new BufferedReader(new FileReader(path));//leitor do arquivo
-            this.buffWrite = new BufferedWriter(new FileWriter(OUTPUT_FILE)); //escritor no arquivo de saida
+            this.buffWrite = new BufferedWriter(new FileWriter(saida)); //escritor no arquivo de saida
         } catch (IOException ex) {
             Logger.getLogger(ProcessadorMacros.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -36,10 +35,11 @@ public class ProcessadorMacros {
 
     public void leitor() throws IOException { //Funcao lê o arquivo de entrada
         String linha;
+        buffWrite.append("CR");//adicionado pra dar match na formatação de exemplo desenvolvida na planilha
         HashMap<String,String> macros = new HashMap<>(); //hashmap para guardar todas as macros
         String replaceMacro; //Auxiliar, caso haja uma chamada de macro
-
-        while ((linha = buffRead.readLine()) != null) { // le o arquivo inteiro
+        linha = buffRead.readLine();
+        while (linha != null) { // le o arquivo inteiro
             linha = linha.trim();
             if (linha.contains("MACRO")) {// se encontra uma definiçao de macro
                 pegaMacro(macros);//abre o modo de definição, salva a macro no hashmap
@@ -53,8 +53,10 @@ public class ProcessadorMacros {
                     buffWrite.append(linha + "\n");//Se não, adiciona a linha lida
                 }
             }
+            linha = buffRead.readLine();
         }
         //for (String nome : macros.keySet()) System.out.println(nome); //debug - imprime o nome das macros definidas
+        buffWrite.append("LF");
         buffWrite.flush();//Coloca as informações do buffer no arquivo
         buffWrite.close();//Fecha o buffer de escrita
         buffRead.close();//Fecha o buffer de leitura

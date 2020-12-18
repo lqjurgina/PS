@@ -5,6 +5,11 @@
  */
 package trabalhops;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  *
  * @author cassi
@@ -15,15 +20,41 @@ public class JanelaProcessaMacro extends javax.swing.JFrame {
      * Creates new form JanelaProcessaMacro
      */
     private String nome;
-    public JanelaProcessaMacro(String nome) {
+    private String saida1 = "src/arquivos/cod1.asm.txt";
+    private String saida2 = "src/arquivos/cod2.asm.txt";
+
+    public JanelaProcessaMacro(String nome, String caminho1, String caminho2) throws FileNotFoundException, IOException {//recebe os caminhos para as files
+        //System.out.println(caminho1);//debug
+        //System.out.println(caminho2);//debug
         initComponents();
-        this.nome=nome;
+        this.nome = nome;
         jButton1.setOpaque(false);
         jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jTextPane1.setOpaque(false);
         jTextPane1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jTextPane2.setOpaque(false);
         jTextPane2.setBackground(new java.awt.Color(255, 255, 255, 0));
+
+        ProcessadorMacros pm1 = new ProcessadorMacros(caminho1, saida1);
+        ProcessadorMacros pm2 = new ProcessadorMacros(caminho2, saida2);
+        pm1.leitor();
+        pm2.leitor();
+
+        BufferedReader buffRead1 = new BufferedReader(new FileReader(saida1));
+        String linha = buffRead1.readLine();
+        while (linha != null) {
+            jTextPane1.setText(jTextPane1.getText() + "\n" + linha);
+            linha = buffRead1.readLine();
+        }
+        buffRead1.close();
+        BufferedReader buffRead2 = new BufferedReader(new FileReader(saida2));
+        String linha2 = buffRead2.readLine();
+        while (linha2 != null) {
+            jTextPane2.setText(jTextPane2.getText() + "\n" + linha2);
+            linha2 = buffRead2.readLine();
+        }
+        buffRead2.close();
+
     }
 
     /**
@@ -82,7 +113,7 @@ public class JanelaProcessaMacro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JanelaMontador jm = new JanelaMontador(nome);
+        JanelaMontador jm = new JanelaMontador(nome,saida1,saida2);
         jm.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

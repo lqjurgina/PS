@@ -22,7 +22,8 @@ public class MainDesenvolvimento {
     public static void main(String[] args) throws FileNotFoundException {
         // ProcessadorMacros PM = new ProcessadorMacros("src/inputs/exemplo_trabalho_com_chamada_de_macros_aninhadas.txt");
        // ProcessadorMacros PM = new ProcessadorMacros("src/inputs/exemplo_trabalho_sem_macros_aninhadas_entrada_processador_de_macros.txt");
-       ProcessadorMacros PM = new ProcessadorMacros("src/inputs/exemplo2_sem_macros_aninhadas_entrada_processador_macros.txt");
+       ProcessadorMacros PM = new ProcessadorMacros("src/arquivos/cod2.txt","src/arquivos/cod2.asm.txt");
+       //       ProcessadorMacros PM = new ProcessadorMacros("src/arquivos/cod1.txt");
 
         try {
             PM.leitor();

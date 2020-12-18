@@ -24,10 +24,14 @@ public class JanelaCodigo extends javax.swing.JFrame {
      * Creates new form JanelaCodigo
      */
     private String nome;
+    private String caminho1;
+    private String caminho2;
 
     public JanelaCodigo(String nome, String caminho1, String caminho2) throws IOException {
         initComponents();
         this.nome = nome;
+        this.caminho1 = caminho1;
+        this.caminho2 = caminho2;
         jButton1.setOpaque(false);
         jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jTextPane1.setOpaque(false);
@@ -38,36 +42,19 @@ public class JanelaCodigo extends javax.swing.JFrame {
         TextLineNumber tln2 = new TextLineNumber(jTextPane2);
         jScrollPane1.setRowHeaderView(tln);
         jScrollPane2.setRowHeaderView(tln2);
-        BufferedReader buffRead1 = null;
-        buffRead1 = new BufferedReader(new FileReader(caminho1));
-        String linha = "";
-        while (true) {
-            if (linha != null) {
-                System.out.println(linha);
-
-            } else {
-                break;
-            }
+        
+        BufferedReader buffRead1 = new BufferedReader(new FileReader(caminho1));
+        String linha = buffRead1.readLine();
+        while (linha != null) {
+            jTextPane1.setText(jTextPane1.getText() + "\n" + linha);
             linha = buffRead1.readLine();
-            if (linha != null) {
-                jTextPane1.setText(jTextPane1.getText() + "\n" + linha);
-            }
         }
         buffRead1.close();
-        BufferedReader buffRead2 = null;
-        buffRead2 = new BufferedReader(new FileReader(caminho2));
-        String linha2 = "";
-        while (true) {
-            if (linha2 != null) {
-                System.out.println(linha2);
-
-            } else {
-                break;
-            }
-            linha2 = buffRead2.readLine();
-            if (linha2 != null) {
-                jTextPane2.setText(jTextPane2.getText() + "\n" + linha2);
-            }
+        BufferedReader buffRead2 = new BufferedReader(new FileReader(caminho2));
+        String linha2 =buffRead2.readLine();
+        while (linha2 != null) {
+            jTextPane2.setText(jTextPane2.getText() + "\n" + linha2);
+                        linha2 = buffRead2.readLine();
         }
         buffRead2.close();
     }
@@ -141,17 +128,17 @@ public class JanelaCodigo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        BufferedWriter buffWrite = null;
+
         try {
-            buffWrite = new BufferedWriter(new FileWriter("src/inputs/macroteste.txt"));
-            buffWrite.append(jTextPane1.getText());
-            buffWrite.close();
-            JanelaProcessaMacro jpm = new JanelaProcessaMacro(nome);
+            JanelaProcessaMacro jpm = new JanelaProcessaMacro(nome, this.caminho1, this.caminho2);//cria uma nova janela para o processador de macros
             jpm.setVisible(true);
             dispose();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(JanelaCodigo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(JanelaCodigo.class.getName()).log(Level.SEVERE, null, ex);
         }
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
