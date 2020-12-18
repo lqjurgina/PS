@@ -1,0 +1,16 @@
+
+*código 1
+MOD_1 START 0
+  A EXTR	
+  M2 EXTR	
+  EXTDEF F
+  MACRO	
+    XISQUADRADO &X
+    LOAD &X
+    MULT &X
+  MEND		
+  READ A
+  XISQUADRADO A
+  BR M2
+  F STOP
+END	

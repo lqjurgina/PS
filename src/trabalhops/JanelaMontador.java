@@ -30,7 +30,6 @@ public class JanelaMontador extends javax.swing.JFrame {
         jTextPane4.setBackground(new java.awt.Color(255, 255, 255, 0));
         
         
-        
                //Otimização de impressão
        // FuncoesUteis.imprimeInterfaceFinal(jTextPane1, saida1);
         //FuncoesUteis.imprimeInterfaceFinal(jTextPane2, saida2);
