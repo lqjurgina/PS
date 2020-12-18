@@ -5,6 +5,11 @@
  */
 package trabalhops;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  *
  * @author Miguel
@@ -63,4 +68,13 @@ public class FuncoesUteis {
             
         return new String(inverso);
     }
+    
+     public static void imprimeInterfaceFinal(javax.swing.JTextPane painel, String caminho) throws FileNotFoundException, IOException{
+        BufferedReader buffRead = new BufferedReader(new FileReader(caminho));
+        String linha = buffRead.readLine();
+        while (linha != null) {
+            painel.setText(painel.getText() + "\n" + linha);
+            linha = buffRead.readLine();
+        }
+     }
 }

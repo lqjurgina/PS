@@ -40,21 +40,9 @@ public class JanelaProcessaMacro extends javax.swing.JFrame {
         pm1.leitor();
         pm2.leitor();
 
-        BufferedReader buffRead1 = new BufferedReader(new FileReader(saida1));
-        String linha = buffRead1.readLine();
-        while (linha != null) {
-            jTextPane1.setText(jTextPane1.getText() + "\n" + linha);
-            linha = buffRead1.readLine();
-        }
-        buffRead1.close();
-        BufferedReader buffRead2 = new BufferedReader(new FileReader(saida2));
-        String linha2 = buffRead2.readLine();
-        while (linha2 != null) {
-            jTextPane2.setText(jTextPane2.getText() + "\n" + linha2);
-            linha2 = buffRead2.readLine();
-        }
-        buffRead2.close();
-
+        //Otimização de impressão
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane1, saida1);
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane2, saida2);
     }
 
     /**

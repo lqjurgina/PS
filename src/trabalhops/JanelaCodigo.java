@@ -42,21 +42,10 @@ public class JanelaCodigo extends javax.swing.JFrame {
         TextLineNumber tln2 = new TextLineNumber(jTextPane2);
         jScrollPane1.setRowHeaderView(tln);
         jScrollPane2.setRowHeaderView(tln2);
-        
-        BufferedReader buffRead1 = new BufferedReader(new FileReader(caminho1));
-        String linha = buffRead1.readLine();
-        while (linha != null) {
-            jTextPane1.setText(jTextPane1.getText() + "\n" + linha);
-            linha = buffRead1.readLine();
-        }
-        buffRead1.close();
-        BufferedReader buffRead2 = new BufferedReader(new FileReader(caminho2));
-        String linha2 =buffRead2.readLine();
-        while (linha2 != null) {
-            jTextPane2.setText(jTextPane2.getText() + "\n" + linha2);
-                        linha2 = buffRead2.readLine();
-        }
-        buffRead2.close();
+        //Otimização de impressão
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane1, caminho1);
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane2, caminho2);
+
     }
 
     public JanelaCodigo(String nome) {
