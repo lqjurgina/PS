@@ -32,6 +32,8 @@ public class JanelaLigador extends javax.swing.JFrame {
         //Inicializa o ligador com os caminhos que ele precisa pra pegar os arquivos
         Ligador L = new Ligador(caminho1, caminho2);
         
+        L.primeiraPassagemLigador();
+        L.segundaPassagemLigador();
         //Imprime na interface o .hpx que foi gerada com o contrutor de cima L
         FuncoesUteis.imprimeInterfaceFinal(jTextPane1, saidaHPX);
     }

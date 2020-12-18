@@ -22,12 +22,14 @@ import java.util.Map;
 public class Ligador {
     BufferedReader buffRead1,buffRead2;
     BufferedWriter buffWrite;
-    final String OUTPUT_FILE = "cod.hpx.txt";
+    final String OUTPUT_FILE = "src/arquivos/cod.hpx.txt";
     ArrayList<String> cod = new ArrayList ();
     Map<String, Integer> tabela = new HashMap<String, Integer>();
     int tamanho;
     
     public Ligador(String path1, String path2) throws FileNotFoundException, IOException {
+        System.err.println(path1);
+        System.err.println(path2);
         this.buffRead1 = new BufferedReader(new FileReader(path1));//leitor do arquivo
         this.buffRead2 = new BufferedReader(new FileReader(path2));
         this.buffWrite = new BufferedWriter(new FileWriter(OUTPUT_FILE)); //Escritor no arquivo de saída

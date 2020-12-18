@@ -63,11 +63,11 @@ public class Montador {
             this.buffRead2 = new BufferedReader(new FileReader(path1));//leitor do arquivo
             this.buffRead22 = new BufferedReader(new FileReader(path2));//leitor do arquivo
         
-            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj1));
-            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj2));
-            
-            this.buffWriterLst1 = new BufferedWriter(new FileWriter(saidaLst1));
-            this.buffWriterLst2 = new BufferedWriter(new FileWriter(saidaLst2));
+//            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj1));
+//            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj2));
+//            
+//            this.buffWriterLst1 = new BufferedWriter(new FileWriter(saidaLst1));
+//            this.buffWriterLst2 = new BufferedWriter(new FileWriter(saidaLst2));
         
         } catch (IOException ex) {
             Logger.getLogger(ProcessadorMacros.class.getName()).log(Level.SEVERE, null, ex);
