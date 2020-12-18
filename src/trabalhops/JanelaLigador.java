@@ -6,6 +6,7 @@
 package trabalhops;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,13 +20,20 @@ public class JanelaLigador extends javax.swing.JFrame {
      * Creates new form JanelaLigador
      */
     private String nome;
-    public JanelaLigador(String nome) {
+    private final String saidaHPX = "src/arquivos/cod.hpx.txt";
+    public JanelaLigador(String nome,String caminho1, String caminho2) throws FileNotFoundException, IOException {
         initComponents();
         this.nome=nome;
         jButton1.setOpaque(false);
         jButton1.setBackground(new java.awt.Color(255, 255, 255, 0));
         jTextPane1.setOpaque(false);
         jTextPane1.setBackground(new java.awt.Color(255, 255, 255, 0));
+        
+        //Inicializa o ligador com os caminhos que ele precisa pra pegar os arquivos
+        Ligador L = new Ligador(caminho1, caminho2);
+        
+        //Imprime na interface o .hpx que foi gerada com o contrutor de cima L
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane1, saidaHPX);
     }
 
     /**

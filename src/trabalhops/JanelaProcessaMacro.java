@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -101,9 +103,15 @@ public class JanelaProcessaMacro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JanelaMontador jm = new JanelaMontador(nome,saida1,saida2);
-        jm.setVisible(true);
-        dispose();
+        JanelaMontador jm;
+        try {
+            jm = new JanelaMontador(nome,saida1,saida2);
+            jm.setVisible(true);
+            dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaProcessaMacro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

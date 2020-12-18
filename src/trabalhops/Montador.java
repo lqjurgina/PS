@@ -25,6 +25,13 @@ import java.util.logging.Logger;
  */
 public class Montador {
     BufferedReader buffRead1,buffRead12,buffRead2,buffRead22; //reader do arquivo
+    BufferedWriter buffWriterObj1,buffWriterObj2,buffWriterLst1,buffWriterLst2;
+    String saidaObj1 = "src/arquivos/cod1.obj.txt";
+    String saidaObj2 = "src/arquivos/cod2.obj.txt";
+    
+    String saidaLst1 = "src/arquivos/cod1.lst.txt";
+    String saidaLst2 = "src/arquivos/cod2.lst.txt";
+    
     final String OUTPUT_FILE_1 = "tabelaSimbolos1.txt";
     private Map<String, Integer> tabelaSimbolos1,tabelaSimbolos2,tabelaDefEXTDEF1,tabelaDefEXTDEF2;
     
@@ -52,9 +59,16 @@ public class Montador {
             this.buffRead1 = new BufferedReader(new FileReader(path1));//leitor do arquivo
             this.buffRead12 = new BufferedReader(new FileReader(path2));//leitor do arquivo
             
-            //Paara segunada passagem
+            //Para segunada passagem
             this.buffRead2 = new BufferedReader(new FileReader(path1));//leitor do arquivo
             this.buffRead22 = new BufferedReader(new FileReader(path2));//leitor do arquivo
+        
+            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj1));
+            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj2));
+            
+            this.buffWriterLst1 = new BufferedWriter(new FileWriter(saidaLst1));
+            this.buffWriterLst2 = new BufferedWriter(new FileWriter(saidaLst2));
+        
         } catch (IOException ex) {
             Logger.getLogger(ProcessadorMacros.class.getName()).log(Level.SEVERE, null, ex);
         }

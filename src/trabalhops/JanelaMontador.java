@@ -5,6 +5,11 @@
  */
 package trabalhops;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author cassi
@@ -15,7 +20,14 @@ public class JanelaMontador extends javax.swing.JFrame {
      * Creates new form JanelaMontador
      */
     private String nome;
-    public JanelaMontador(String nome, String caminho1, String caminho2) { //recebe o nome, e os caminhos para os .asm.txt de cada um dos códigos selecionados.
+    
+    private final String lstSaida1 = "src/arquivos/cod1.lst.txt";
+    private final String lstSaida2 = "src/arquivos/cod2.lst.txt";
+    
+    private final String objSaida1 = "src/arquivos/cod1.obj.txt";
+    private final String objSaida2 = "src/arquivos/cod2.obj.txt";
+    
+    public JanelaMontador(String nome, String caminho1, String caminho2) throws IOException { //recebe o nome, e os caminhos para os .asm.txt de cada um dos códigos selecionados.
         initComponents();
         this.nome=nome;
         jButton1.setOpaque(false);
@@ -29,10 +41,18 @@ public class JanelaMontador extends javax.swing.JFrame {
         jTextPane4.setOpaque(false);
         jTextPane4.setBackground(new java.awt.Color(255, 255, 255, 0));
         
+        Montador M = new  Montador(caminho1, caminho2);
+        M.primeiraPassagemArq1();
+        M.primeiraPassagemArq2();
+        M.segundaPassagemArq1();
+        M.segundaPassagemArq2();        
         
                //Otimização de impressão
-       // FuncoesUteis.imprimeInterfaceFinal(jTextPane1, saida1);
-        //FuncoesUteis.imprimeInterfaceFinal(jTextPane2, saida2);
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane1, lstSaida1);
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane2, lstSaida2);
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane3, objSaida1);
+        FuncoesUteis.imprimeInterfaceFinal(jTextPane4, objSaida2);
+
     }
 
     /**
@@ -101,16 +121,25 @@ public class JanelaMontador extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+            .addComponent(jScrollPane5)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JanelaLigador jl = new JanelaLigador(nome);
-        jl.setVisible(true);
-        dispose();
+        JanelaLigador jl;
+ 
+        try {
+            jl = new JanelaLigador(nome,objSaida1,objSaida2);
+            jl.setVisible(true);
+            dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaMontador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
