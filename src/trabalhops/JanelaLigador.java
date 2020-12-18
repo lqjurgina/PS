@@ -88,7 +88,7 @@ public class JanelaLigador extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            JanelaPrincipal jp = new JanelaPrincipal(nome);
+            JanelaPrincipal jp = new JanelaPrincipal(nome,saidaHPX);
             jp.setVisible(true);
             dispose();
         } catch (FileNotFoundException ex) {

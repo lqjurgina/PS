@@ -63,8 +63,8 @@ public class Montador {
             this.buffRead2 = new BufferedReader(new FileReader(path1));//leitor do arquivo
             this.buffRead22 = new BufferedReader(new FileReader(path2));//leitor do arquivo
         
-//            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj1));
-//            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj2));
+            this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj1));
+            this.buffWriterObj2 = new BufferedWriter(new FileWriter(saidaObj2));
 //            
 //            this.buffWriterLst1 = new BufferedWriter(new FileWriter(saidaLst1));
 //            this.buffWriterLst2 = new BufferedWriter(new FileWriter(saidaLst2));
@@ -81,7 +81,7 @@ public class Montador {
         System.out.println("Tabela de definições EXTDEF");
         System.out.println(tabelaDefEXTDEF1.toString());
         
-        System.out.println(tabelaSimbolos1.containsKey("B"));
+      
     }
     public void primeiraPassagemArq2() throws IOException{
         primeiraPassagem(buffRead12,this.tabelaSimbolos2,this.PosMem2,this.tabelaDefEXTDEF2);
@@ -97,30 +97,48 @@ public class Montador {
     public void segundaPassagemArq1() throws IOException{
         segundaPassagem(this.buffRead2, this.obj1, this.tabelaSimbolos1, this.tabelaDefEXTDEF1, this.TamLinhasMem1, this.tabela1);
         //System.out.println("OBJ1 = "+ obj1.toString());
+        
+        System.out.println("* cod1.obj\n");
+        buffWriterObj1.append("* cod1.obj\n");
         for (String string : this.obj1) {
             System.out.println(string);
+            buffWriterObj1.append(string+"\n");
         }
         System.out.println("TABELA");
+        buffWriterObj1.append("TABELA\n");
+        
         for (String string : this.tabela1) {
             System.out.println(string);
+            buffWriterObj1.append(string+"\n");
         }
+        buffWriterObj1.append("TAMANHO\n" + obj1.size());
         System.out.println("TAMANHO\n" + obj1.size());
         
-        //System.out.println("Tabela1 = " + this.tabela1);
+        buffWriterObj1.flush();
+        buffWriterObj1.close();
     }
     public void segundaPassagemArq2() throws IOException{
         segundaPassagem(this.buffRead22, this.obj2, this.tabelaSimbolos2, this.tabelaDefEXTDEF2, this.TamLinhasMem2, this.tabela2);
-//        System.out.println("OBJ2 = "+ obj2.toString());
-//        System.out.println("Tabela2 = " + this.tabela2);
+        System.out.println("* cod2.obj\n");
+        buffWriterObj2.append("* cod2.obj\n");
+        
         for (String string : this.obj2) {
            System.out.println(string);
+           buffWriterObj2.append(string+"\n");
         }
         System.out.println("TABELA");
+        buffWriterObj2.append("TABELA\n");
+        
         for (String string : this.tabela2) {
             System.out.println(string);
+            buffWriterObj2.append(string+"\n");
         }
         System.out.println("TAMANHO\n" + obj2.size());
+        buffWriterObj2.append("TAMANHO\n" + obj2.size());
 
+        buffWriterObj2.flush();
+        buffWriterObj2.close();        
+        
     }    
     
     public void primeiraPassagem(

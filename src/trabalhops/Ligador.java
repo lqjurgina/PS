@@ -54,6 +54,7 @@ public class Ligador {
         
         while (!linha1.equals("TAMANHO")){
             aux = linha1.split(" "); //Quebra a linha a partir do ESPAÇO
+            System.out.println(aux[1]);
             aux2 = Integer.parseInt(aux[1]); //Transforma o endereço string para INT
             tabela.put(aux[0], aux2); //Armazena a tabela global em um HashMap
             System.out.println(linha1);

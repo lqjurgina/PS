@@ -27,7 +27,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private int leitura; //Leitura do usuario
     private Boolean run,opcaoRun; //Variaveis auxiliares de continuidade
     private String nomeUsuario;
-    private final String ARQUIVO_ENTRADA = "src/inputs/arquivo.txt";
+    private String ARQUIVO_ENTRADA;
     
     private void imprimeRegistradoresNaTela() { //Funçao que atualiza os valores dos registradores para imprimir no display
         //Imprime os valores dos registradores na tela   
@@ -41,8 +41,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }
     /**
      * Creates new form JanelaPrincipal
+     * Recebe o nome o usuário e o arquivo HPX que é a o arquivo que vai ser carregado na memória da máquina
      */
-    public JanelaPrincipal(String nome) throws FileNotFoundException {
+    public JanelaPrincipal(String nome, String HPX) throws FileNotFoundException {
         initComponents();
         nomeUsuario = nome;
         //run = true;
@@ -62,6 +63,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jButton3.setOpaque(false);
         jButton3.setBackground(new java.awt.Color(255, 255, 255, 0));
         jTextArea1.setText("	Olá, "+nomeUsuario+"!\n Bem vindo ao Venture! \n Escolha o seu modo de operação para começarmos...\n\n Step - Executa o programa passo a passo\n Run - Executa todo o programa\n Reset - Reset o programa");
+        
+        this.ARQUIVO_ENTRADA = HPX;
+        
         ManipulaArquivo arquivo;
         regs = new Registrador[6];//declaracao dos registradores que serao usados no programa. Nao tem diferenciacao sobre qual registrador eh qual.
         model = new DefaultListModel<String>();
