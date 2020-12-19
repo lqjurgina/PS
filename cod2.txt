@@ -1,0 +1,12 @@
+*cod 2
+START 0
+  EXTDEF A
+  EXTDEF M2
+  F EXTR		  
+  M2 ADD #1
+  STORE B
+  WRITE B
+  BR F
+  A SPACE	
+  B SPACE	
+END	

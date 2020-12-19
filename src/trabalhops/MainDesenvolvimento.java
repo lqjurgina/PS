@@ -21,7 +21,7 @@ public class MainDesenvolvimento {
      */
     public static void main(String[] args) throws FileNotFoundException {
       //processadorDeMacros();
-      montador();
+      //montador();
       //ligador();
        
     }

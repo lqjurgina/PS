@@ -39,40 +39,51 @@ public class Montador {
     
     private int PosMem1 = 0;//posição memória código1
     private int PosMem2 = 0;//posição memória código2
-    private int TamLinhasMem1 = 0;
-    private int TamLinhasMem2 = 0;
+    private int TamLinhasMem1 = 0;//Indica a quantidade de linhas que o OBJ 1 vai ter
+    private int TamLinhasMem2 = 0;//Indica a quantidade de linhas que o OBJ 1 vai ter
     
+    //Auxiliares para manter os códigos obj
     ArrayList<String> obj1  = new ArrayList();
     ArrayList<String> obj2  = new ArrayList();
     
+    //Auxiliares para manter os códigos 
+    ArrayList<String> lst1  = new ArrayList();
+    ArrayList<String> lst2  = new ArrayList();
+    
     public Montador(String path1, String path2) throws FileNotFoundException {
+        //auxiliares para primeira passagem
         this.tabelaSimbolos1 = new HashMap<String, Integer>();
         this.tabelaSimbolos2 = new HashMap<String, Integer>();
         
+        //auxiliares para primeira 
         this.tabelaDefEXTDEF1 = new HashMap<String, Integer>();
         this.tabelaDefEXTDEF2 = new HashMap<String, Integer>();
         
+        //Auxiliares para criar a TABELA dos arquivos .obj
         this.tabela1 = new ArrayList();
         this.tabela2 = new ArrayList();
         try {
-            //para primeira passagem
+            //para Leitura da primeira passagem
             this.buffRead1 = new BufferedReader(new FileReader(path1));//leitor do arquivo
             this.buffRead12 = new BufferedReader(new FileReader(path2));//leitor do arquivo
             
-            //Para segunada passagem
+            //Para Leitura da segunada passagem
             this.buffRead2 = new BufferedReader(new FileReader(path1));//leitor do arquivo
             this.buffRead22 = new BufferedReader(new FileReader(path2));//leitor do arquivo
         
+            //Para criação dos arquivos objetos
             this.buffWriterObj1 = new BufferedWriter(new FileWriter(saidaObj1));
             this.buffWriterObj2 = new BufferedWriter(new FileWriter(saidaObj2));
-//            
-//            this.buffWriterLst1 = new BufferedWriter(new FileWriter(saidaLst1));
-//            this.buffWriterLst2 = new BufferedWriter(new FileWriter(saidaLst2));
+            
+            //Para criação dos arquivos LST            
+            this.buffWriterLst1 = new BufferedWriter(new FileWriter(saidaLst1));
+            this.buffWriterLst2 = new BufferedWriter(new FileWriter(saidaLst2));
         
         } catch (IOException ex) {
             Logger.getLogger(ProcessadorMacros.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
     public void primeiraPassagemArq1() throws IOException{
         primeiraPassagem(buffRead1,this.tabelaSimbolos1,this.PosMem1,this.tabelaDefEXTDEF1);
         System.out.println("======== asm 1 ========");
@@ -97,7 +108,15 @@ public class Montador {
     }
     
     public void segundaPassagemArq1() throws IOException{
-        segundaPassagem(this.buffRead2, this.obj1, this.tabelaSimbolos1, this.tabelaDefEXTDEF1, this.TamLinhasMem1, this.tabela1);
+        segundaPassagem(
+                this.buffRead2,
+                this.lst1,
+                this.obj1,
+                this.tabelaSimbolos1,
+                this.tabelaDefEXTDEF1,
+                this.TamLinhasMem1,
+                this.tabela1
+        );
         //System.out.println("OBJ1 = "+ obj1.toString());
         
         System.out.println("* cod1.obj\n");
@@ -116,13 +135,32 @@ public class Montador {
         buffWriterObj1.append("TAMANHO\n" + obj1.size());
         System.out.println("TAMANHO\n" + obj1.size());
         
-        buffWriterObj1.flush();
-        buffWriterObj1.close();
+        System.out.println("=================");
+        buffWriterLst1.append("LINHA CÓDIGO INSTRUÇÃO\n");
+        for (int i = 0; i < this.lst1.size(); i++) {
+            System.out.println(i + " " + obj1.get(i) + " " + lst1.get(i));
+            buffWriterLst1.append(i + " " + obj1.get(i) + " " + lst1.get(i)+ "\n");
+        }
         
+        //Escreve nos arquivos LST e OBJ
+        buffWriterLst1.flush();
+        buffWriterObj1.flush();
+        
+        //Fecha todos os buffers abertos
+        buffWriterLst1.close();
+        buffWriterObj1.close();        
         buffRead2.close();
     }
     public void segundaPassagemArq2() throws IOException{
-        segundaPassagem(this.buffRead22, this.obj2, this.tabelaSimbolos2, this.tabelaDefEXTDEF2, this.TamLinhasMem2, this.tabela2);
+        segundaPassagem(
+                this.buffRead22,
+                this.lst2,
+                this.obj2, 
+                this.tabelaSimbolos2, 
+                this.tabelaDefEXTDEF2, 
+                this.TamLinhasMem2, 
+                this.tabela2
+        );
         
         System.out.println("* cod2.obj\n");
         buffWriterObj2.append("* cod2.obj\n");
@@ -141,9 +179,20 @@ public class Montador {
         System.out.println("TAMANHO\n" + obj2.size());
         buffWriterObj2.append("TAMANHO\n" + obj2.size());
 
-        buffWriterObj2.flush();
-        buffWriterObj2.close();    
+        System.out.println("=================");
+        buffWriterLst2.append("LINHA CÓDIGO INSTRUÇÃO\n");
+        for (int i = 0; i < this.lst2.size(); i++) {
+            System.out.println(i + " " + obj2.get(i) + " " + lst2.get(i));
+            buffWriterLst2.append(i + " " + obj2.get(i) + " " + lst2.get(i) + "\n");
+        }
         
+        //Escreve nos arquivos LST e OBJ
+        buffWriterLst2.flush();
+        buffWriterObj2.flush();
+        
+        //Fecha todos os buffers abertos
+        buffWriterLst2.close();    
+        buffWriterObj2.close();         
         buffRead22.close();
         
     }    
@@ -271,35 +320,9 @@ public class Montador {
        
     }
     
-    public void testaOperandoSegundaPassagem(String teste,int TamLinhasMem, ArrayList<String> obj){
-        char[] auxVetString;
-        auxVetString = obj.get(TamLinhasMem).toCharArray();
-        
-        
-        
-        if(teste.startsWith("#")){// Operando imediato no início
-            
-            auxVetString[8] = '1';
-            obj.set(TamLinhasMem, String.valueOf(auxVetString));
-            String aux = teste.substring (1, teste.length());
-         
-            
-            
-            obj.add(FuncoesUteis.intToBinaryString(Integer.parseInt(aux), 16));
-
-        }else if(teste.endsWith(",I")){//Operando indireto
-
-            auxVetString[10] = '1';
-            obj.set(TamLinhasMem, String.valueOf(auxVetString));
-            obj.add(teste.substring (0, teste.length()-2));
-
-        }else{
-            obj.add(teste);
-        }
-    }
-    
-    public void segundaPassagem(
+   public void segundaPassagem(
             BufferedReader buffRead, 
+            ArrayList<String> lst,
             ArrayList<String> obj, 
             Map<String, Integer> tabelaSimbolos,
             Map<String, Integer> tabelaDefEXTDEF,
@@ -321,140 +344,201 @@ public class Montador {
                 switch (d[i]) {
 
                     case "ADD":
-                    
+                        lst.add("ADD");
                         obj.add(FuncoesUteis.intToBinaryString(2,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     break;
                     case "BR":
+                        lst.add("BR");
                         obj.add(FuncoesUteis.intToBinaryString(0,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     break;
                     case "BRNEG":
+                        lst.add("BRNEG");
                         obj.add(FuncoesUteis.intToBinaryString(5,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     
                     break;
 
                     case "BRPOS":
+                        lst.add("BRPOS");
                         obj.add(FuncoesUteis.intToBinaryString(1,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                           
                     
                     break;
                     case "BRZERO":
+                        lst.add("BRZERO");
                         obj.add(FuncoesUteis.intToBinaryString(4,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst,obj);
                         
                         TamLinhasMem++;
                     
                     break;
                     case "CALL":
+                        lst.add("CALL");
                         obj.add(FuncoesUteis.intToBinaryString(15,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     
                     break;
                     case "COPY"://Voltar aqui, muito complexo
+                        lst.add("COPY");
                         obj.add(FuncoesUteis.intToBinaryString(13,16));
+                        
+                        //Primeiro Operando
                         teste = d[i+1];
+                        char[] auxVetString;
+                        auxVetString = obj.get(TamLinhasMem).toCharArray();
+
+                        if(teste.startsWith("#")){// Operando imediato no início
+                           //Operando 1 não pode ser imediato
+                            System.err.println("Operando 1 não pode ser imediato");
+
+                        }else if(teste.endsWith(",I")){//Operando indireto
+                            lst.add(teste.substring (0, teste.length()-2));
+                            
+                            auxVetString[10] = '1';
+                            obj.set(TamLinhasMem, String.valueOf(auxVetString));
+                            obj.add(teste.substring (0, teste.length()-2));
+
+                        }else{//Operando direto
+                            lst.add(teste);
+                            obj.add(teste);
+                        }
+                        //TamLinhasMem++;
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        //Segundo Operando
+                        teste = d[i+2];
+                        auxVetString = obj.get(TamLinhasMem).toCharArray();
                         
+                        if(teste.startsWith("#")){// Segundo Operando imediato no início
+                            String aux = teste.substring (1, teste.length());
+                            lst.add(aux);
+                            auxVetString[8] = '1';
+                            obj.set(TamLinhasMem, String.valueOf(auxVetString));
+                            
+
+                            obj.add(FuncoesUteis.intToBinaryString(Integer.parseInt(aux), 16));
+
+                        }else if(teste.endsWith(",I")){//Segundo Operando indireto
+                            lst.add(teste.substring (0, teste.length()-2));
+                            
+                            auxVetString[9] = '1';
+                            obj.set(TamLinhasMem, String.valueOf(auxVetString));
+                            obj.add(teste.substring (0, teste.length()-2));
+
+                        }else{// Segundo operando direto
+                            obj.add(teste);
+                            lst.add(teste);
+                        }
                         TamLinhasMem++;
                     
                     break;
                     case "DIVIDE":
+                        lst.add("DIVIDE");
                         obj.add(FuncoesUteis.intToBinaryString(10,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     break;
                     case "LOAD":
+                        lst.add("LOAD");
                         obj.add(FuncoesUteis.intToBinaryString(3,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     break;
                     case "MULT":
+                        lst.add("MULT");
                         obj.add(FuncoesUteis.intToBinaryString(14,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     
                     break;
                     case "READ":
+                        lst.add("READ");
                         obj.add(FuncoesUteis.intToBinaryString(12,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     break;
                     case "RET":
+                        lst.add("RET");
                         obj.add(FuncoesUteis.intToBinaryString(9,16));
                     break;
                     case "STOP":
+                        lst.add("STOP");
                         obj.add(FuncoesUteis.intToBinaryString(11,16));
                     break;
                     case "STORE":
+                        lst.add("STORE");
                         obj.add(FuncoesUteis.intToBinaryString(7,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     break;
                     case "SUB":
+                        lst.add("SUB");
                         obj.add(FuncoesUteis.intToBinaryString(6,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     break;
                     case "WRITE":
+                        lst.add("WRITE");
                         obj.add(FuncoesUteis.intToBinaryString(8,16));
                         teste = d[i+1];
                         
-                        testaOperandoSegundaPassagem(teste,TamLinhasMem, obj);
+                        testaOperandoSegundaPassagem(teste,TamLinhasMem, lst, obj);
                         
                         TamLinhasMem++;
                     break;
                     case "END":
                     break;
                     case "SPACE":
+                        lst.add("SPACE");
                         obj.add(FuncoesUteis.intToBinaryString(0,16));
                         //obj.add(teste)
                     break;
                     case "CONST":
                         teste = d[i+1];
+                        lst.add(teste);
                         obj.add(FuncoesUteis.intToBinaryString(Integer.parseInt(teste),16));
                     break;
                     default:
@@ -518,4 +602,32 @@ public class Montador {
             }
         }
     }
+    
+        public void testaOperandoSegundaPassagem(String teste,int TamLinhasMem, ArrayList<String> lst, ArrayList<String> obj){
+        char[] auxVetString;
+        auxVetString = obj.get(TamLinhasMem).toCharArray();
+        
+        if(teste.startsWith("#")){// Operando imediato no início
+            
+            auxVetString[8] = '1';
+            obj.set(TamLinhasMem, String.valueOf(auxVetString));
+            String aux = teste.substring (1, teste.length());
+            
+            lst.add(aux);
+            obj.add(FuncoesUteis.intToBinaryString(Integer.parseInt(aux), 16));
+
+        }else if(teste.endsWith(",I")){//Operando indireto
+
+            auxVetString[10] = '1';
+            obj.set(TamLinhasMem, String.valueOf(auxVetString));
+            
+            lst.add(teste.substring (0, teste.length()-2));
+            obj.add(teste.substring (0, teste.length()-2));
+
+        }else{
+            lst.add(teste);
+            obj.add(teste);
+        }
+    }
+    
 }
