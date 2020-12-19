@@ -81,17 +81,19 @@ public class Montador {
         System.out.println("Tabela de definições EXTDEF");
         System.out.println(tabelaDefEXTDEF1.toString());
         
+        buffRead1.close();
       
     }
     public void primeiraPassagemArq2() throws IOException{
         primeiraPassagem(buffRead12,this.tabelaSimbolos2,this.PosMem2,this.tabelaDefEXTDEF2);
         
-        primeiraPassagem(buffRead1,this.tabelaSimbolos1,this.PosMem1,this.tabelaDefEXTDEF1);
         System.out.println("======== asm 2 ========");
         System.out.println("Tabela de simbolos");
         System.out.println(tabelaSimbolos2.toString());
         System.out.println("Tabela de definições EXTDEF");
         System.out.println(tabelaDefEXTDEF2.toString());
+        
+        buffRead12.close();
     }
     
     public void segundaPassagemArq1() throws IOException{
@@ -116,9 +118,12 @@ public class Montador {
         
         buffWriterObj1.flush();
         buffWriterObj1.close();
+        
+        buffRead2.close();
     }
     public void segundaPassagemArq2() throws IOException{
         segundaPassagem(this.buffRead22, this.obj2, this.tabelaSimbolos2, this.tabelaDefEXTDEF2, this.TamLinhasMem2, this.tabela2);
+        
         System.out.println("* cod2.obj\n");
         buffWriterObj2.append("* cod2.obj\n");
         
@@ -137,7 +142,9 @@ public class Montador {
         buffWriterObj2.append("TAMANHO\n" + obj2.size());
 
         buffWriterObj2.flush();
-        buffWriterObj2.close();        
+        buffWriterObj2.close();    
+        
+        buffRead22.close();
         
     }    
     
@@ -159,6 +166,10 @@ public class Montador {
                 String aux;
                 for (int i = 0; i < d.length; i++) {
                     //System.out.println(d[i]);
+                    if (d[i].startsWith("*")){
+                        i = d.length;
+                        break;
+                    }
                     switch (d[i]) {
                         
                         case "ADD":

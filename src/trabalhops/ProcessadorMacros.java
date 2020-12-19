@@ -35,7 +35,7 @@ public class ProcessadorMacros {
 
     public void leitor() throws IOException { //Funcao lê o arquivo de entrada
         String linha;
-        buffWrite.append("CR");//adicionado pra dar match na formatação de exemplo desenvolvida na planilha
+        buffWrite.append("CR" + "\n");//adicionado pra dar match na formatação de exemplo desenvolvida na planilha
         HashMap<String,String> macros = new HashMap<>(); //hashmap para guardar todas as macros
         String replaceMacro; //Auxiliar, caso haja uma chamada de macro
         linha = buffRead.readLine();

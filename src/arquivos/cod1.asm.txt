@@ -1,6 +1,6 @@
 CR
-*código 1
-MOD_1 START 0
+* cod 1
+START 0
 A EXTR
 M2 EXTR
 EXTDEF F
